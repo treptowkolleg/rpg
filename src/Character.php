@@ -2,6 +2,9 @@
 
 namespace Btinet\Rpg;
 
+use Btinet\Rpg\Engine\ActionEngine;
+use Exception;
+
 class Character
 {
 
@@ -11,6 +14,11 @@ class Character
      * @var int Health Points
      */
     private int $hp;
+
+    /**
+     * @var int Starting Health Points
+     */
+    private int $maxHP;
 
     /**
      * @var int Attack Points
@@ -44,6 +52,7 @@ class Character
     {
         $this->name = $name;
         $this->hp = $hp;
+        $this->maxHP = $hp;
         $this->ap = $ap;
         $this->attackFactor = $attackFactor;
         $this->dp = $dp;
@@ -57,40 +66,35 @@ class Character
 
     public function attack(Character $character): void
     {
-        if($character->getHp() <= 0) {
-            echo "{$character} ist tot!\n";
-        }
-
         $fiendHP = $character->getHp();
-        $fiendDP = $character->getDp() * $character->getDefenseFactor();
+        $fiendDP = $character->getDp();
 
-        // TODO: Zufallskomplex für Verteidigung implementieren
-
-        // Zufallskomplex Attacke
-        $apRand = rand(70,130);
-        if($apRand > 110) {
-            if(rand(0,100) < 50) {
-                $apRand = 1.1;
-            }
+        try {
+            $fiendDefenseFactor = ActionEngine::differ($character->getDefenseFactor(),90,110,140);
+            $attackFactor = ActionEngine::differ($this->attackFactor);
+            $selfAP = round(($this->ap * $attackFactor) - ($fiendDP * $fiendDefenseFactor));
+        } catch (Exception $exception) {
+            die($exception->getMessage() . "({$exception->getFile()})");
         }
-        $attackFactor = $this->attackFactor * $apRand / 100;
-
-        $selfAP = ($this->ap * $attackFactor) - $fiendDP;
 
         if($selfAP <= 0) {
             $selfAP = 0;
-            echo "{$character} hat geblockt!\n";
+            echo "\e[34m$character hat geblockt!\n";
         } else {
-            echo "{$this} attackiert {$character} mit {$selfAP} Angriffspunkten!\n";
+            echo "\e[39m$this attackiert $character mit $selfAP (orig.: {$this->getAp()}) Angriffspunkten!\n";
         }
 
-        $resultFiendHP = $fiendHP-$selfAP;
-
-
-
-
         // Angriff durchführen
-        $character->setHp( round($resultFiendHP) );
+        $resultFiendHP = $fiendHP-$selfAP;
+        $character->setHp($resultFiendHP);
+
+        if($character->getHp() <= 0) {
+            $character->setHp(0);
+            echo "\e[91m$character ist tot!\n";
+            echo "\e[91m☠☠☠☠☠☠☠☠☠☠☠☠\n\n";
+        } else {
+            echo "\e[93m$character hat nun  {$character->getHp()}/{$character->getMaxHP()} HP!\n\n";
+        }
     }
 
     /**
@@ -107,6 +111,14 @@ class Character
     public function getHp(): int
     {
         return $this->hp;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxHP(): int
+    {
+        return $this->maxHP;
     }
 
     /**
