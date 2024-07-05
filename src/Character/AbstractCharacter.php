@@ -1,11 +1,11 @@
 <?php
 
-namespace Btinet\Rpg;
+namespace Btinet\Rpg\Character;
 
 use Btinet\Rpg\Engine\ActionEngine;
 use Exception;
 
-class Character
+abstract class AbstractCharacter
 {
 
     private string $name;
@@ -64,8 +64,9 @@ class Character
         return $this->name;
     }
 
-    public function attack(Character $character): void
+    public function attack(AbstractCharacter $character): void
     {
+        echo "\e[39m$this greift an!\n";
         $fiendHP = $character->getHp();
         $fiendDP = $character->getDp();
 
@@ -73,15 +74,18 @@ class Character
             $fiendDefenseFactor = ActionEngine::differ($character->getDefenseFactor(),90,110,140);
             $attackFactor = ActionEngine::differ($this->attackFactor);
             $selfAP = round(($this->ap * $attackFactor) - ($fiendDP * $fiendDefenseFactor));
+            $fiendDP = round($fiendDP * $fiendDefenseFactor);
         } catch (Exception $exception) {
             die($exception->getMessage() . "({$exception->getFile()})");
         }
+
+        ActionEngine::criticalHit($selfAP);
 
         if($selfAP <= 0) {
             $selfAP = 0;
             echo "\e[34m$character hat geblockt!\n";
         } else {
-            echo "\e[39m$this attackiert $character mit $selfAP (orig.: {$this->getAp()}) Angriffspunkten!\n";
+            echo "\e[39m$this attackiert $character mit $selfAP (Defense: $fiendDP) Angriffspunkten!\n";
         }
 
         // Angriff durchführen
@@ -93,7 +97,7 @@ class Character
             echo "\e[91m$character ist tot!\n";
             echo "\e[91m☠☠☠☠☠☠☠☠☠☠☠☠\n\n";
         } else {
-            echo "\e[93m$character hat nun  {$character->getHp()}/{$character->getMaxHP()} HP!\n\n";
+            echo "\e[93m$character hat nun {$character->getHp()}/{$character->getMaxHP()} HP!\n\n";
         }
     }
 

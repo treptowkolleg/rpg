@@ -30,4 +30,13 @@ class ActionEngine
         return $factor * $rndInteger / 100;
     }
 
+
+    public static function criticalHit(int &$ap): void
+    {
+        if(rand(0,100) >= 97) {
+            echo "\e[91mKritischer Treffer!\n";
+            $ap = $ap * 2;
+        }
+    }
+
 }
