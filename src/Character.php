@@ -64,7 +64,9 @@ class Character
         $fiendHP = $character->getHp();
         $fiendDP = $character->getDp() * $character->getDefenseFactor();
 
-        // Zufallskomplex
+        // TODO: Zufallskomplex für Verteidigung implementieren
+
+        // Zufallskomplex Attacke
         $apRand = rand(70,130);
         if($apRand > 110) {
             if(rand(0,100) < 50) {
