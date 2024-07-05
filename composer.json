@@ -1,0 +1,17 @@
+{
+    "name": "btinet/rpg",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Btinet\\Rpg\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Benjamin Wagner",
+            "email": "51082373+btinet@users.noreply.github.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
