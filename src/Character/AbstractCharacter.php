@@ -66,7 +66,7 @@ abstract class AbstractCharacter
 
     public function attack(AbstractCharacter $character): void
     {
-        echo "\e[39m$this greift an!\n";
+        echo "\e[39m⚔ $this greift an!\n";
         $fiendHP = $character->getHp();
         $fiendDP = $character->getDp();
 
@@ -83,9 +83,9 @@ abstract class AbstractCharacter
 
         if($selfAP <= 0) {
             $selfAP = 0;
-            echo "\e[34m$character hat geblockt!\n";
+            echo "\e[34m⛉ $character hat geblockt!\n";
         } else {
-            echo "\e[39m$this attackiert $character mit $selfAP (Defense: $fiendDP) Angriffspunkten!\n";
+            echo "\e[39m⚔ $this attackiert $character mit $selfAP (Defense: $fiendDP) Angriffspunkten!\n";
         }
 
         // Angriff durchführen
@@ -94,10 +94,9 @@ abstract class AbstractCharacter
 
         if($character->getHp() <= 0) {
             $character->setHp(0);
-            echo "\e[91m$character ist tot!\n";
-            echo "\e[91m☠☠☠☠☠☠☠☠☠☠☠☠\n\n";
+            echo "\e[91m☠ $character ist tot!\n\n";
         } else {
-            echo "\e[93m$character hat nun {$character->getHp()}/{$character->getMaxHP()} HP!\n\n";
+            echo "\e[93m♡ $character hat nun {$character->getHp()}/{$character->getMaxHP()} HP!\n\n";
         }
     }
 
