@@ -7,22 +7,26 @@ require 'vendor/autoload.php';
 
 $gladiator = new Character('Alexander');
 $monster = new Character('Org',120,4,1,3);
-
-echo "Das Spiel beginnt!\n";
+echo "\e[39m######################\n";
+echo "\e[39m# Das Spiel beginnt! #\n";
+echo "\e[39m######################\n\n";
 
 while(true) {
-    $gladiator->attack($monster);
-    $monster->attack($gladiator);
+
     if($gladiator->getHp() <= 0) {
-        echo "$gladiator ist tot!\n";
         break;
+    } else {
+        $gladiator->attack($monster);
     }
+
     if($monster->getHp() <= 0) {
-        echo "$monster ist tot!\n";
         break;
+    } else {
+        $monster->attack($gladiator);
     }
+
 }
 
-echo "Das Spiel ist zu ende!\n";
+echo "\e[39mDas Spiel ist zu ende!\n";
 
 
