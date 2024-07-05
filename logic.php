@@ -17,12 +17,14 @@ while(true) {
         break;
     } else {
         $p1->attack($p2);
+        sleep(2);
     }
 
     if($p2->getHp() <= 0) {
         break;
     } else {
         $p2->attack($p1);
+        sleep(2);
     }
 
 }

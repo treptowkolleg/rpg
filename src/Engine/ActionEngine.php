@@ -34,7 +34,7 @@ class ActionEngine
     public static function criticalHit(int &$ap): void
     {
         if(rand(0,100) >= 97) {
-            echo "\e[91mKritischer Treffer!\n";
+            echo "\e[91m⚔ Kritischer Treffer!\n";
             $ap = $ap * 2;
         }
     }
