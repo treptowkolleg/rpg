@@ -6,14 +6,15 @@ class UserCharacterBuilder
 {
 
     private string $name;
-    private int $hp;
-    private int $ap;
-    private float $attackFactor;
-    private int $dp;
-    private float $defenseFactor;
+    private int $hp = 120;
+    private int $ap = 6;
+    private float $attackFactor = 1.0;
+    private int $dp = 6;
+    private float $defenseFactor = .7;
 
     /**
      * @param string $name
+     * @return UserCharacterBuilder
      */
     public function setName(string $name): UserCharacterBuilder
     {
@@ -23,6 +24,7 @@ class UserCharacterBuilder
 
     /**
      * @param int $hp
+     * @return UserCharacterBuilder
      */
     public function setHp(int $hp): UserCharacterBuilder
     {
@@ -32,6 +34,7 @@ class UserCharacterBuilder
 
     /**
      * @param int $ap
+     * @return UserCharacterBuilder
      */
     public function setAp(int $ap): UserCharacterBuilder
     {
@@ -41,6 +44,7 @@ class UserCharacterBuilder
 
     /**
      * @param float $attackFactor
+     * @return UserCharacterBuilder
      */
     public function setAttackFactor(float $attackFactor): UserCharacterBuilder
     {
@@ -50,6 +54,7 @@ class UserCharacterBuilder
 
     /**
      * @param int $dp
+     * @return UserCharacterBuilder
      */
     public function setDp(int $dp): UserCharacterBuilder
     {
@@ -59,6 +64,7 @@ class UserCharacterBuilder
 
     /**
      * @param float $defenseFactor
+     * @return UserCharacterBuilder
      */
     public function setDefenseFactor(float $defenseFactor): UserCharacterBuilder
     {
@@ -66,6 +72,9 @@ class UserCharacterBuilder
         return $this;
     }
 
+    /**
+     * @return UserCharacter
+     */
     public function create(): UserCharacter
     {
         return new UserCharacter($this->name, $this->hp, $this->ap, $this->attackFactor, $this->dp, $this->defenseFactor);
