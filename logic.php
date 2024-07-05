@@ -1,28 +1,28 @@
 <?php
 
-use Btinet\Rpg\Character;
+use Btinet\Rpg\Character\UserCharacterFactory;
 
 require 'vendor/autoload.php';
 
+$p1 = UserCharacterFactory::Archaon();
+$p2 = UserCharacterFactory::Sigmar();
 
-$gladiator = new Character('Alexander');
-$monster = new Character('Org',120,4,1,3);
-echo "\e[39m######################\n";
+echo "\n\e[39m######################\n";
 echo "\e[39m# Das Spiel beginnt! #\n";
 echo "\e[39m######################\n\n";
 
 while(true) {
 
-    if($gladiator->getHp() <= 0) {
+    if($p1->getHp() <= 0) {
         break;
     } else {
-        $gladiator->attack($monster);
+        $p1->attack($p2);
     }
 
-    if($monster->getHp() <= 0) {
+    if($p2->getHp() <= 0) {
         break;
     } else {
-        $monster->attack($gladiator);
+        $p2->attack($p1);
     }
 
 }
