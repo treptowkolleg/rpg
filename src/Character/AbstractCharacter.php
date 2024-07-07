@@ -8,12 +8,12 @@ use Exception;
 abstract class AbstractCharacter
 {
 
-    private string $name;
+    protected string $name;
 
     /**
      * @var int Health Points
      */
-    private int $hp;
+    protected int $hp;
 
     /**
      * @var int Starting Health Points
