@@ -5,7 +5,7 @@ use Btinet\Rpg\Engine\BenfordsLawEngine;
 require "vendor/autoload.php";
 
 
-//Pre process all thef inancial or statistical numbersand create one simple array
+//Preprocess all the financial or statistical numbers and create one simple array
 
 //Sample Data as Array
 //$financial_and_or_statistical_numbers = [4634,45,45745,34,4845,54,45847,484578458,424122458,45854,7845845,8548,458,45845,12142,8451118458458458,45548,124214,35311253,5312,3734865797,1231321,1151,9808,56,6,435412,1215151];
@@ -32,5 +32,4 @@ $phpBenfordsLaw = New BenfordsLawEngine($financial_and_or_statistical_numbers);
 //$phpBenfordsLaw->debug();
 
 $result = $phpBenfordsLaw->get_result("L");
-$phpBenfordsLaw->debug();
 echo "<hr /> <pre> Benford's Law RESULT =  "; print_r($result);
