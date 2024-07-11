@@ -2,6 +2,8 @@
 
 namespace Btinet\Rpg\Character;
 
+use Btinet\Rpg\Item\Potion;
+
 class UserCharacterBuilder
 {
 
@@ -11,6 +13,7 @@ class UserCharacterBuilder
     private float $attackFactor = 1.0;
     private int $dp = 6;
     private float $defenseFactor = .7;
+    private array $potions = [];
 
     /**
      * @param string $name
@@ -73,11 +76,29 @@ class UserCharacterBuilder
     }
 
     /**
+     * @param array $potions
+     */
+    public function setPotions(array $potions): UserCharacterBuilder
+    {
+        $this->potions = $potions;
+        return $this;
+    }
+
+    /**
+     * @param Potion $potions
+     */
+    public function addPotion(Potion $potion): UserCharacterBuilder
+    {
+        $this->potions[] = $potion;
+        return $this;
+    }
+
+    /**
      * @return UserCharacter
      */
     public function create(): UserCharacter
     {
-        return new UserCharacter($this->name, $this->hp, $this->ap, $this->attackFactor, $this->dp, $this->defenseFactor);
+        return new UserCharacter($this->name, $this->hp, $this->ap, $this->attackFactor, $this->dp, $this->defenseFactor, $this->potions);
     }
 
 }

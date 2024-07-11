@@ -8,8 +8,10 @@ require 'vendor/autoload.php';
 
 $gameEngine = new GameEngine();
 
-$gameEngine->addPlayer(PlayerPosition::one, UserCharacterFactory::Archaon());
-$gameEngine->addPlayer(PlayerPosition::two, UserCharacterFactory::Sigmar());
+$gameEngine->addPlayer(PlayerPosition::left,UserCharacterFactory::Sigmar());
+$gameEngine->addPlayer(PlayerPosition::left,UserCharacterFactory::Archaon());
+
+$gameEngine->addPlayer(PlayerPosition::right,UserCharacterFactory::Ultima());
 
 $gameEngine->start();
 

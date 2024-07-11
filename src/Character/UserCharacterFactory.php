@@ -2,6 +2,8 @@
 
 namespace Btinet\Rpg\Character;
 
+use Btinet\Rpg\Item\Potion;
+
 class UserCharacterFactory
 {
 
@@ -15,6 +17,9 @@ class UserCharacterFactory
             ->setAttackFactor(1.5)
             ->setDp(53)
             ->setDefenseFactor(2)
+            ->addPotion(new Potion())
+            ->addPotion(new Potion())
+            ->addPotion(new Potion())
             ->create()
             ;
     }
@@ -27,6 +32,23 @@ class UserCharacterFactory
             ->setHp(720)
             ->setAp(69)
             ->setAttackFactor(2)
+            ->setDp(70)
+            ->setDefenseFactor(.5)
+            ->addPotion(new Potion())
+            ->addPotion(new Potion())
+            ->addPotion(new Potion())
+            ->create()
+            ;
+    }
+
+    public static function Ultima(): UserCharacter
+    {
+        $builder = new UserCharacterBuilder();
+        return $builder
+            ->setName("Ultima")
+            ->setHp(20000)
+            ->setAp(40)
+            ->setAttackFactor(1.5)
             ->setDp(70)
             ->setDefenseFactor(.5)
             ->create()

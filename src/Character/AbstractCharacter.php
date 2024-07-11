@@ -66,7 +66,7 @@ abstract class AbstractCharacter
 
     public function attack(AbstractCharacter $character): void
     {
-        echo "\e[39m⚔ $this greift an!\n";
+        echo "\e[39m⚔ $this greift $character an!\n";
         $fiendHP = $character->getHp();
         $fiendDP = $character->getDp();
 

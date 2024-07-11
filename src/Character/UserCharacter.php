@@ -9,13 +9,9 @@ class UserCharacter extends AbstractCharacter
 
     public array $potions;
 
-    public function __construct(string $name, int $hp, int $ap, float $attackFactor, int $dp, float $defenseFactor)
+    public function __construct(string $name, int $hp, int $ap, float $attackFactor, int $dp, float $defenseFactor, array $potions)
     {
-        $this->potions = [
-            new Potion(),
-            new Potion(),
-            new Potion(),
-        ];
+        $this->potions = $potions;
 
         parent::__construct($name, $hp, $ap, $attackFactor, $dp, $defenseFactor);
     }

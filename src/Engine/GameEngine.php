@@ -2,18 +2,18 @@
 
 namespace Btinet\Rpg\Engine;
 
-use ArrayObject;
+use Btinet\Rpg\Character\AbstractCharacter;
 use Btinet\Rpg\Character\PlayerPosition;
 use Btinet\Rpg\Character\UserCharacter;
 
 class GameEngine
 {
 
-    private ArrayObject $player;
+    private array $player;
 
     public function __construct()
     {
-        $this->player = new ArrayObject();
+
     }
 
     public function start(): void
@@ -23,13 +23,19 @@ class GameEngine
         echo "\e[39m######################\n\n";
 
         while(true) {
-
-            // TODO: Jeder Spieler soll Ziel manuell wählen können.
-            //
-            $p1 = $this->makeTurn(PlayerPosition::one,PlayerPosition::two);
-            if(!$p1) break;
-            $p2 = $this->makeTurn(PlayerPosition::two,PlayerPosition::one);
-            if(!$p2) break;
+            $partyHP = 0;
+            foreach ($this->player as $parties) {
+                $partyHP = 0;
+                foreach ($parties as $player) {
+                    /** @var AbstractCharacter $player */
+                    $partyHP += $player->getHp();
+                    if($player->getHp() > 0) {
+                        $this->makeTurn($player);
+                    }
+                }
+                if($partyHP <= 0) break;
+            }
+            if($partyHP <= 0) break;
         }
 
         echo "\e[39mDas Spiel ist zu ende!\n";
@@ -37,20 +43,21 @@ class GameEngine
 
     public function addPlayer(PlayerPosition $position, UserCharacter $character): GameEngine
     {
-        $this->player->offsetSet($position->value, $character);
+        $this->player[$position->name][] = $character;
         return $this;
     }
 
-    public function getPlayer(PlayerPosition $position): ?UserCharacter
-    {
-        return $this->player->offsetGet($position->value) ?? null;
-    }
 
-    public function makeTurn(PlayerPosition $origin, PlayerPosition $target): bool
+    public function makeTurn(AbstractCharacter $character): bool
     {
-        if($this->getPlayer($origin)->getHp() <= 0) {
-            return false;
-        } else {
+       if(in_array($character,$this->player[PlayerPosition::left->name])) {
+           $targetPosition = PlayerPosition::right;
+       } else {
+           $targetPosition = PlayerPosition::left;
+       }
+
+
+        if($character instanceof UserCharacter) {
             echo "\e[39m";
             echo "\n";
 
@@ -60,21 +67,37 @@ class GameEngine
             echo "------------\n";
             echo "Angriff (Enter)\n";
             echo "Warten\n";
-            echo "Heilen ({$this->getPlayer($origin)->getPotionsCount()} Potions)\n";
+            echo "Heilen ({$character->getPotionsCount()} Potions)\n";
             echo "============\n";
-            $name = readline("{$this->getPlayer($origin)}: \n");
+            $name = readline("{$character}: \n");
             echo shell_exec('clear');
             echo "\n";
             switch (strtolower($name)) {
                 case "warten":
-                    echo "{$this->getPlayer($origin)} wartet.\n";
+                    echo "{$character} wartet.\n";
                     break;
                 case "heilen":
-                    $this->getPlayer($origin)->heal($this->getPlayer($origin));
+                    $character->heal($character);
                     break;
                 case "angriff":
                 default:
-                $this->getPlayer($origin)->attack($this->getPlayer($target));
+                    for($i = 0; $i < count($this->player[$targetPosition->name]); $i++) {
+                        $targetPlayer = $this->player[$targetPosition->name][$i];
+                        echo "$i: $targetPlayer\n";
+                    }
+                echo "\n\n";
+                    while(true) {
+                        $targetIndex = readline("Angriff auf: \n");
+                        $targetIndex = intval($targetIndex);
+                        if($targetIndex >= 0 and $targetIndex < count($this->player[$targetPosition->name])) {
+                            break;
+                        } else {
+                            echo "Gib nur die Nummer des Gegners ein!\n";
+                        }
+                    }
+                echo shell_exec('clear');
+                $target = $this->player[$targetPosition->name][$targetIndex];
+                $character->attack($target);
             }
         }
         return true;
