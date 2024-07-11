@@ -61,8 +61,6 @@ class GameEngine
             echo "\e[39m";
             echo "\n";
 
-            // TODO: Zuerst Ziel wählen und dann den Befehl
-
             echo "Befehle\n";
             echo "------------\n";
             echo "Angriff (Enter)\n";
@@ -72,20 +70,28 @@ class GameEngine
             $name = readline("{$character}: \n");
             echo shell_exec('clear');
             echo "\n";
+
             switch (strtolower($name)) {
+
                 case "warten":
                     echo "{$character} wartet.\n";
                     break;
+
                 case "heilen":
                     $character->heal($character);
                     break;
+
                 case "angriff":
                 default:
+                    echo "Ziele\n";
+                    echo "------------\n";
                     for($i = 0; $i < count($this->player[$targetPosition->name]); $i++) {
                         $targetPlayer = $this->player[$targetPosition->name][$i];
                         echo "$i: $targetPlayer\n";
                     }
-                echo "\n\n";
+                    echo "============\n";
+                    echo "\n\n";
+
                     while(true) {
                         $targetIndex = readline("Angriff auf: \n");
                         $targetIndex = intval($targetIndex);
@@ -95,9 +101,10 @@ class GameEngine
                             echo "Gib nur die Nummer des Gegners ein!\n";
                         }
                     }
-                echo shell_exec('clear');
-                $target = $this->player[$targetPosition->name][$targetIndex];
-                $character->attack($target);
+
+                    echo shell_exec('clear');
+                    $target = $this->player[$targetPosition->name][$targetIndex];
+                    $character->attack($target);
             }
         }
         return true;
