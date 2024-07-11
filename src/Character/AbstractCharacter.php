@@ -98,7 +98,7 @@ abstract class AbstractCharacter
 
         if($character->getHp() <= 0) {
             $character->setHp(0);
-            Out::printAlert("$character ist tot!",TextColor::black, BackgroundColor::red);
+            Out::printAlert("$character ist tot!");
         } else {
             echo "\e[93m♡ $character hat nun {$character->getHp()}/{$character->getMaxHP()} HP!\n\n";
         }

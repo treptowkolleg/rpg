@@ -38,7 +38,7 @@ class ActionEngine
     {
         if(rand(0,100) >= 97) {
 
-            Out::printAlert("Kritischer Treffer",TextColor::lightRed,BackgroundColor::black);
+            Out::printAlert("Kritischer Treffer");
 
             $ap = $ap * 2;
         }
