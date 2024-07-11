@@ -27,14 +27,16 @@ class Out
         echo sprintf("%s%s%s%s",self::setColor($color),self::setColor($background),$text,self::setColor('0'));
     }
 
-    public static function printAlert(string $text, BackgroundColor $background = BackgroundColor::red): void
+    /**
+     * Gibt Alarm-Block MIT Zeilenumbruch aus.
+     * @param string $text Text, der ausgegeben werden soll.
+     * @param TextColor $color Textfarbe (Standard ist weiß)
+     * @param BackgroundColor $background Hintergrundfarbe (Standard ist rot)
+     * @param int $whitespace Leerzeichen zwischen Rand und Text
+     */
+    public static function printAlert(string $text, TextColor $color = TextColor::white, BackgroundColor $background = BackgroundColor::red, int $whitespace = 6): void
     {
-        $horizontalLine = '';
-        for($i = 1; $i <= (strlen($text) + 4); $i++) $horizontalLine .= ' ';
-        self::printLn($horizontalLine,TextColor::white,$background);
-        self::printLn(  "  $text  ",TextColor::white,$background);
-        self::printLn($horizontalLine,TextColor::white,$background);
-        self::printLn("");
+        self::generateFrame($text, ' ',  $whitespace, $color,$background);
     }
 
     /**
@@ -42,13 +44,28 @@ class Out
      * @param string $text Text, der ausgegeben werden soll.
      * @param TextColor $color Textfarbe (Standard ist weiß)
      * @param BackgroundColor $background Hintergrundfarbe (Standard ist schwarz)
+     * @param int $whitespace Leerzeichen zwischen Rand und Text
      */
-    public static function printHeading(string $text, TextColor $color = TextColor::white, BackgroundColor $background = BackgroundColor::black): void
+    public static function printHeading(string $text, TextColor $color = TextColor::white, BackgroundColor $background = BackgroundColor::black, int $whitespace = 6): void
+    {
+        self::generateFrame($text, whitespace: $whitespace, color: $color, background: $background);
+    }
+
+    /**
+     * @param string $text Text, der ausgegeben werden soll.
+     * @param string $frameChar Zeichen, das für den Rahmen verwendet werden soll.
+     * @param int $whitespace Leerzeichen zwischen Rand und Text
+     * @param TextColor $color Textfarbe (Standard ist weiß)
+     * @param BackgroundColor $background Hintergrundfarbe (Standard ist schwarz)
+     */
+    private static function generateFrame(string $text, string $frameChar = "#", int $whitespace = 1, TextColor $color = TextColor::white, BackgroundColor $background = BackgroundColor::black): void
     {
         $horizontalLine = '';
-        for($i = 1; $i <= (strlen($text) + 4); $i++) $horizontalLine .= '#';
+        $whiteSpaceLine = '';
+        for($i = 1; $i <= (strlen($text) + (2*$whitespace)+2); $i++) $horizontalLine .= $frameChar;
+        for($i = 1; $i <= $whitespace; $i++) $whiteSpaceLine .= ' ';
         self::printLn($horizontalLine, $color, $background);
-        self::printLn("# $text #", $color, $background);
+        self::printLn($frameChar.$whiteSpaceLine.$text.$whiteSpaceLine.$frameChar, $color, $background);
         self::printLn($horizontalLine, $color, $background);
         self::printLn("");
     }

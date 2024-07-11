@@ -21,7 +21,7 @@ class GameEngine
 
     public function start(): void
     {
-        Out::printHeading("Das Spiel beginnt!", TextColor::black,BackgroundColor::cyan);
+        Out::printHeading("Das Spiel beginnt!", TextColor::lightBlue);
 
         while(true) {
             $partyHP = 0;
@@ -39,7 +39,7 @@ class GameEngine
             if($partyHP <= 0) break;
         }
 
-        Out::printAlert("Das Spiel ist zu Ende!",BackgroundColor::yellow);
+        Out::printHeading("Das Spiel ist zu Ende!",TextColor::lightBlue);
     }
 
     public function addPlayer(PlayerPosition $position, UserCharacter $character): GameEngine

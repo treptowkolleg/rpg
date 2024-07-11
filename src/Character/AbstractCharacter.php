@@ -87,7 +87,7 @@ abstract class AbstractCharacter
         if($selfAP <= 0) {
             $selfAP = 0;
             echo "\e[34m\n";
-            Out::printAlert("$character hat geblockt!", BackgroundColor::blue);
+            Out::printAlert("$character hat geblockt!", TextColor::black, BackgroundColor::cyan);
         } else {
             Out::printLn("⚔ $this attackiert $character mit $selfAP (Defense: $fiendDP) Angriffspunkten!", TextColor::yellow);
         }
@@ -98,7 +98,7 @@ abstract class AbstractCharacter
 
         if($character->getHp() <= 0) {
             $character->setHp(0);
-            Out::printAlert("$character ist tot!");
+            Out::printAlert("$character ist tot!",TextColor::black, BackgroundColor::red);
         } else {
             echo "\e[93m♡ $character hat nun {$character->getHp()}/{$character->getMaxHP()} HP!\n\n";
         }
