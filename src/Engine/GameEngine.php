@@ -21,19 +21,6 @@ class GameEngine
 
     public function start(): void
     {
-
-        // Vorher
-        echo "\n\e[39m######################\n";
-        echo "\e[39m# Das Spiel beginnt! #\n";
-        echo "\e[39m######################\n\n";
-
-        // Dann
-        Out::printLn("######################");
-        Out::printLn("# Das Spiel beginnt! #");
-        Out::printLn("######################");
-        Out::printLn("");
-
-        // und jetzt
         Out::printHeading("Das Spiel beginnt!", TextColor::black,BackgroundColor::cyan);
 
         while(true) {
@@ -52,7 +39,7 @@ class GameEngine
             if($partyHP <= 0) break;
         }
 
-        echo "\e[39mDas Spiel ist zu ende!\n";
+        Out::printAlert("Das Spiel ist zu Ende!",BackgroundColor::yellow);
     }
 
     public function addPlayer(PlayerPosition $position, UserCharacter $character): GameEngine
@@ -82,7 +69,6 @@ class GameEngine
             echo "Heilen ({$character->getPotionsCount()} Potions)\n";
             echo "============\n";
             $name = readline("{$character}: \n");
-            echo shell_exec('clear');
             echo "\n";
 
             switch (strtolower($name)) {

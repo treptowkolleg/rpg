@@ -11,5 +11,5 @@ enum BackgroundColor: string
     case cyan           =   ('46');
     case red            =   ('41');
     case yellow         =   ('43');
-    case magenta        =    ('45');
+    case magenta        =   ('45');
 }

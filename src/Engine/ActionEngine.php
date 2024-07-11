@@ -38,11 +38,7 @@ class ActionEngine
     {
         if(rand(0,100) >= 97) {
 
-            // Vorher
-            echo "\e[91m⚔ Kritischer Treffer!\n";
-
-            // Jetzt
-            Out::printLn("⚔ Kritischer Treffer", background: BackgroundColor::red);
+            Out::printAlert("Kritischer Treffer");
 
             $ap = $ap * 2;
         }

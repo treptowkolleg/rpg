@@ -3,6 +3,9 @@
 namespace Btinet\Rpg\Character;
 
 use Btinet\Rpg\Engine\ActionEngine;
+use Btinet\Rpg\System\BackgroundColor;
+use Btinet\Rpg\System\Out;
+use Btinet\Rpg\System\TextColor;
 use Exception;
 
 abstract class AbstractCharacter
@@ -83,9 +86,10 @@ abstract class AbstractCharacter
 
         if($selfAP <= 0) {
             $selfAP = 0;
-            echo "\e[34m⛉ $character hat geblockt!\n";
+            echo "\e[34m\n";
+            Out::printAlert("$character hat geblockt!", BackgroundColor::blue);
         } else {
-            echo "\e[39m⚔ $this attackiert $character mit $selfAP (Defense: $fiendDP) Angriffspunkten!\n";
+            Out::printLn("⚔ $this attackiert $character mit $selfAP (Defense: $fiendDP) Angriffspunkten!", TextColor::yellow);
         }
 
         // Angriff durchführen
@@ -94,7 +98,7 @@ abstract class AbstractCharacter
 
         if($character->getHp() <= 0) {
             $character->setHp(0);
-            echo "\e[91m☠ $character ist tot!\n\n";
+            Out::printAlert("$character ist tot!");
         } else {
             echo "\e[93m♡ $character hat nun {$character->getHp()}/{$character->getMaxHP()} HP!\n\n";
         }

@@ -27,18 +27,26 @@ class Out
         echo sprintf("%s%s%s%s",self::setColor($color),self::setColor($background),$text,self::setColor('0'));
     }
 
+    public static function printAlert(string $text, BackgroundColor $background = BackgroundColor::red): void
+    {
+        $horizontalLine = '';
+        for($i = 1; $i <= (strlen($text) + 4); $i++) $horizontalLine .= ' ';
+        self::printLn($horizontalLine,TextColor::white,$background);
+        self::printLn(  "  $text  ",TextColor::white,$background);
+        self::printLn($horizontalLine,TextColor::white,$background);
+        self::printLn("");
+    }
+
     /**
      * Gibt Text als Überschrift MIT Zeilenumbruch und Leerzeile aus.
-     * @param string $text
-     * @param TextColor $color
-     * @param BackgroundColor $background
+     * @param string $text Text, der ausgegeben werden soll.
+     * @param TextColor $color Textfarbe (Standard ist weiß)
+     * @param BackgroundColor $background Hintergrundfarbe (Standard ist schwarz)
      */
     public static function printHeading(string $text, TextColor $color = TextColor::white, BackgroundColor $background = BackgroundColor::black): void
     {
-        $letterCount = strlen($text) + 4;
         $horizontalLine = '';
-        for($i = 1; $i <= $letterCount; $i++) $horizontalLine .= '#';
-
+        for($i = 1; $i <= (strlen($text) + 4); $i++) $horizontalLine .= '#';
         self::printLn($horizontalLine, $color, $background);
         self::printLn("# $text #", $color, $background);
         self::printLn($horizontalLine, $color, $background);
