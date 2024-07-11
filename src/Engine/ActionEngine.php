@@ -2,6 +2,9 @@
 
 namespace Btinet\Rpg\Engine;
 
+use Btinet\Rpg\System\BackgroundColor;
+use Btinet\Rpg\System\Out;
+use Btinet\Rpg\System\TextColor;
 use Exception;
 
 class ActionEngine
@@ -34,7 +37,13 @@ class ActionEngine
     public static function criticalHit(int &$ap): void
     {
         if(rand(0,100) >= 97) {
+
+            // Vorher
             echo "\e[91m⚔ Kritischer Treffer!\n";
+
+            // Jetzt
+            Out::printLn("⚔ Kritischer Treffer", background: BackgroundColor::red);
+
             $ap = $ap * 2;
         }
     }

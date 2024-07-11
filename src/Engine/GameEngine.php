@@ -5,6 +5,9 @@ namespace Btinet\Rpg\Engine;
 use Btinet\Rpg\Character\AbstractCharacter;
 use Btinet\Rpg\Character\PlayerPosition;
 use Btinet\Rpg\Character\UserCharacter;
+use Btinet\Rpg\System\BackgroundColor;
+use Btinet\Rpg\System\Out;
+use Btinet\Rpg\System\TextColor;
 
 class GameEngine
 {
@@ -18,9 +21,20 @@ class GameEngine
 
     public function start(): void
     {
+
+        // Vorher
         echo "\n\e[39m######################\n";
         echo "\e[39m# Das Spiel beginnt! #\n";
         echo "\e[39m######################\n\n";
+
+        // Dann
+        Out::printLn("######################");
+        Out::printLn("# Das Spiel beginnt! #");
+        Out::printLn("######################");
+        Out::printLn("");
+
+        // und jetzt
+        Out::printHeading("Das Spiel beginnt!", TextColor::black,BackgroundColor::cyan);
 
         while(true) {
             $partyHP = 0;
