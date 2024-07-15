@@ -2,6 +2,7 @@
 
 use Btinet\Rpg\Character\Character;
 use Btinet\Rpg\Character\Predefined\Cloud;
+use Btinet\Rpg\Character\Predefined\Tifa;
 use Btinet\Rpg\Character\Weapon\BusterSword;
 use Btinet\Rpg\System\Out;
 use Btinet\Rpg\System\TextColor;
@@ -34,7 +35,8 @@ require 'vendor/autoload.php';
  * @var $chars array<Character>
  */
 $chars = [
-    new Cloud()
+    new Cloud(),
+    new Tifa()
     ];
 
 $charRows = [];

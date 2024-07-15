@@ -8,10 +8,10 @@ class BusterSword extends Weapon
     public function __construct()
     {
         parent::__construct(
-            "Buster Sword",
+            "Bastardschwert",
             18,
             .96,
-            0
+            -4
         );
     }
 

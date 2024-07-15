@@ -11,7 +11,7 @@ class HardEdge extends Weapon
             "Hardedge",
             32,
             .98,
-            0
+            -6
         );
     }
 

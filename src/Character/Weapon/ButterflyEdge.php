@@ -11,7 +11,7 @@ class ButterflyEdge extends Weapon
             "Butterfly Edge",
             39,
             1,
-            0
+            -2
         );
     }
 

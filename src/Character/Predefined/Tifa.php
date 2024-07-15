@@ -3,31 +3,31 @@
 namespace Btinet\Rpg\Character\Predefined;
 
 use Btinet\Rpg\Character\Character;
-use Btinet\Rpg\Character\Gear\TitanBangle;
-use Btinet\Rpg\Character\Weapon\BusterSword;
+use Btinet\Rpg\Character\Gear\BronzeBangle;
+use Btinet\Rpg\Character\Weapon\LeatherGlove;
 
-class Cloud extends Character
+class Tifa extends Character
 {
 
     public function __construct()
     {
         parent::__construct(
-            "Cloud Strife",
-            2048,
+            "Tifa Lockheart",
+            5096,
             120,
-            10,
-            1,
             9,
             1,
+            7,
             1,
-            1,
+            4,
+            0,
             1,
             [
-                new TitanBangle()
+                new BronzeBangle()
             ],
-            1,
+            2,
             [
-                new BusterSword()
+                new LeatherGlove()
             ]
         );
     }
