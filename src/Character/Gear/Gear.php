@@ -6,7 +6,7 @@ use Btinet\Rpg\Character\Stats\DefensePointTrait;
 use Btinet\Rpg\Character\Stats\VitalityPointTrait;
 use Btinet\Rpg\Character\Utility\LabelTrait;
 
-class Gear
+abstract class Gear
 {
     use LabelTrait;
     use DefensePointTrait;

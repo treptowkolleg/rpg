@@ -14,6 +14,10 @@
     ],
     "minimum-stability": "dev",
     "require": {
-      "ext-readline": "*"
+      "ext-readline": "*",
+        "gabrielrcouto/php-gui": "dev-master",
+        "php-tui/php-tui": "dev-main",
+        "php-tui/term": "^0.3.4",
+        "ignasbernotas/phkey": "dev-master"
     }
 }

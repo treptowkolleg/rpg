@@ -11,6 +11,11 @@ trait ExperienceTrait
         return round(log($this->exp));
     }
 
+    public function getLeveledStat(int|float $value): int
+    {
+        return round($value * sqrt($this->getLevel() ?? 1 ));
+    }
+
     /**
      * @return int
      */
@@ -31,5 +36,6 @@ trait ExperienceTrait
     {
         $this->exp += $exp;
     }
+
 
 }

@@ -6,7 +6,7 @@ use Btinet\Rpg\Character\Stats\AttackPointTrait;
 use Btinet\Rpg\Character\Stats\VitalityPointTrait;
 use Btinet\Rpg\Character\Utility\LabelTrait;
 
-class Weapon
+abstract class Weapon
 {
     use LabelTrait;
     use AttackPointTrait;

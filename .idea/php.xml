@@ -3,6 +3,16 @@
   <component name="PhpIncludePathManager">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/gabrielrcouto/php-gui" />
+      <path value="$PROJECT_DIR$/vendor/react/child-process" />
+      <path value="$PROJECT_DIR$/vendor/react/event-loop" />
+      <path value="$PROJECT_DIR$/vendor/react/stream" />
+      <path value="$PROJECT_DIR$/vendor/evenement/evenement" />
+      <path value="$PROJECT_DIR$/vendor/php-tui/cassowary" />
+      <path value="$PROJECT_DIR$/vendor/php-tui/php-tui" />
+      <path value="$PROJECT_DIR$/vendor/php-tui/term" />
+      <path value="$PROJECT_DIR$/vendor/ignasbernotas/phkey" />
+      <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />
