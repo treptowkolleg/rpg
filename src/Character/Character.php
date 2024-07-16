@@ -2,6 +2,7 @@
 
 namespace Btinet\Rpg\Character;
 
+use Btinet\Rpg\Battle\BattleEntityInterface;
 use Btinet\Rpg\Character\Gear\Gear;
 use Btinet\Rpg\Character\Stats\AttackPointTrait;
 use Btinet\Rpg\Character\Stats\DefensePointTrait;
@@ -12,7 +13,7 @@ use Btinet\Rpg\Character\Stats\VitalityPointTrait;
 use Btinet\Rpg\Character\Utility\LabelTrait;
 use Btinet\Rpg\Character\Weapon\Weapon;
 
-abstract class Character
+abstract class Character implements BattleEntityInterface
 {
     // Label
     use LabelTrait;
@@ -36,6 +37,9 @@ abstract class Character
 
     // Weapons
     private int $weaponSlots = 0;
+
+    private ?Weapon $currentWeapon = null;
+
     /**
      * @var array<Weapon>
      */
@@ -93,9 +97,8 @@ abstract class Character
     public function getAp(): int
     {
         $weaponAp = 0;
-        foreach ($this->weaponList as $weapon) {
-            $weaponAp += $weapon->getAp() * $weapon->getAttackMultiplication();
-        }
+        if($this->currentWeapon)
+            $weaponAp = $this->currentWeapon?->getAp();
         return $this->getLeveledStat($this->ap * $this->attackMultiplication + $weaponAp);
     }
 
@@ -233,5 +236,21 @@ abstract class Character
             return null;
         }
     }
+
+    public function equipWeapon(Weapon $weapon): self
+    {
+        $this->currentWeapon = $weapon;
+        return $this;
+    }
+
+    /**
+     * @return Weapon|null
+     */
+    public function getEquippedWeapon(): ?Weapon
+    {
+        return $this->currentWeapon;
+    }
+
+
 
 }

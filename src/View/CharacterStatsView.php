@@ -2,6 +2,7 @@
 
 namespace Btinet\Rpg\View;
 
+use Btinet\Rpg\Component\BlockComponent;
 use PhpTui\Tui\Extension\Core\Widget\ParagraphWidget;
 use PhpTui\Tui\Extension\Core\Widget\Table\TableRow;
 use PhpTui\Tui\Extension\Core\Widget\TableWidget;
@@ -18,7 +19,7 @@ class CharacterStatsView extends View
         while (true) {
             $input = $this->input();
             if($input === "a") {
-                $this->renderWidget($this->table);
+                $this->renderWidget(BlockComponent::create("Character Statistics",$this->table));
             }
 
             if($input === "b") {
@@ -45,7 +46,7 @@ class CharacterStatsView extends View
                 $char->getMoodPoints(),
                 $char->getExp(),
                 $char->getLevel(),
-                $char->getWeapon(0) ?? '',
+                $char->getEquippedWeapon() ?? '',
                 $char->getGear(0) ?? '',
             );
         }
