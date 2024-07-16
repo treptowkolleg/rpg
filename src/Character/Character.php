@@ -12,6 +12,11 @@ use Btinet\Rpg\Character\Stats\MoodPointTrait;
 use Btinet\Rpg\Character\Stats\VitalityPointTrait;
 use Btinet\Rpg\Character\Utility\LabelTrait;
 use Btinet\Rpg\Character\Weapon\Weapon;
+use Btinet\Rpg\Engine\ActionEngine;
+use Btinet\Rpg\Item\Item;
+use Btinet\Rpg\Monster\Monster;
+use Btinet\Rpg\System\Out;
+use Exception;
 
 abstract class Character implements BattleEntityInterface
 {
@@ -91,19 +96,44 @@ abstract class Character implements BattleEntityInterface
         }
     }
 
+    public function attack(Character|Monster $entity): void
+    {
+        $selfAP = $this->getAp() - $entity->getDp();
+        if($selfAP <= 0) {
+            Out::printLn("Geblockt");
+        } else {
+            ActionEngine::missedHit($selfAP,$this->getEquippedWeapon()->getAttackMultiplication());
+            if($selfAP > 0)
+                ActionEngine::criticalHit($selfAP);
+        }
+        $entity->modifyHp($selfAP);
+    }
+
+    public function apply(Item $item, BattleEntityInterface $entity): void
+    {
+        // TODO: Implement apply() method.
+    }
+
+    public function defend(): void
+    {
+        // TODO: Implement defend() method.
+    }
+
     /**
      * @return int
+     * @throws Exception
      */
     public function getAp(): int
     {
         $weaponAp = 0;
         if($this->currentWeapon)
             $weaponAp = $this->currentWeapon?->getAp();
-        return $this->getLeveledStat($this->ap * $this->attackMultiplication + $weaponAp);
+        return $this->getLeveledStat($this->ap * ActionEngine::differ($this->attackMultiplication) + $weaponAp);
     }
 
     /**
      * @return int
+     * @throws Exception
      */
     public function getDp(): int
     {
@@ -111,7 +141,7 @@ abstract class Character implements BattleEntityInterface
         foreach ($this->gearList as $gear) {
             $gearDp += $gear->getDp() * $gear->getDefenseMultiplication();
         }
-        return $this->getLeveledStat($this->dp * $this->defenseMultiplication + $gearDp);
+        return $this->getLeveledStat($this->dp * ActionEngine::differ($this->defenseMultiplication) + $gearDp);
     }
 
     /**
@@ -250,7 +280,5 @@ abstract class Character implements BattleEntityInterface
     {
         return $this->currentWeapon;
     }
-
-
 
 }

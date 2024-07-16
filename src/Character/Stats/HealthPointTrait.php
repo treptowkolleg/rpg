@@ -23,9 +23,9 @@ trait HealthPointTrait
         $this->hp = $hp;
     }
 
-    public function modifyHp(int $hp): void
+    public function modifyHp(int $ap): void
     {
-        $this->hp += $hp;
+        $this->hp -= $ap;
     }
 
     /**
