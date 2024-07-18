@@ -6,14 +6,19 @@ use Btinet\Rpg\Character\Character;
 use Btinet\Rpg\Character\Gear\Gear;
 use Btinet\Rpg\Character\Weapon\Weapon;
 use Btinet\Rpg\Config\ConfigInterface;
+use Btinet\Rpg\System\Out;
 use Btinet\Rpg\View\ViewInterface;
+use Error;
+use Exception;
 use PhpTui\Term\Terminal;
 use PhpTui\Tui\Bridge\PhpTerm\PhpTermBackend;
 use PhpTui\Tui\Display\Display;
 use PhpTui\Tui\DisplayBuilder;
 use PhpTui\Tui\Widget\Widget;
+use Serializable;
+use TypeError;
 
-class TerminalEngine
+class TerminalEngine implements Serializable
 {
 
     private Terminal $terminal;
@@ -44,6 +49,7 @@ class TerminalEngine
         $this->weaponList = $config::weaponLibrary();
         $this->gearList = $config::gearLibrary();
 
+        // Nicht unter Windows verfügbar (außer über WSL)
         readline_callback_handler_install("", function() {});
     }
 
@@ -76,8 +82,7 @@ class TerminalEngine
         if(class_exists($viewClassName)) {
             $viewObject = new $viewClassName($this);
             if($viewObject instanceof ViewInterface) {
-                $viewObject->setup();
-                $viewObject->run();
+                $viewObject->setup()->run();
             }
         }
     }
@@ -121,4 +126,41 @@ class TerminalEngine
         return $this->gearList;
     }
 
+    /**
+     * @return string|null
+     */
+    public function serialize(): ?string
+    {
+        return serialize([
+            $this->characterList,
+            $this->gearList,
+            $this->weaponList
+        ]);
+    }
+
+    /**
+     * @param string $data
+     */
+    public function unserialize($data)
+    {
+        $this->terminal = Terminal::new();
+        $this->display = DisplayBuilder::default(PhpTermBackend::new($this->terminal))->build();
+        $this->display->clear();
+
+        // Nicht unter Windows verfügbar (außer über WSL)
+        readline_callback_handler_install("", function() {});
+
+        try {
+            list(
+                $this->characterList,
+                $this->gearList,
+                $this->weaponList
+                ) = unserialize($data);
+        } catch (TypeError|Error $exception) {
+            Out::printAlert($exception->getMessage());
+        }
+
+    }
+
 }
+

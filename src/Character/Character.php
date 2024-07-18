@@ -165,8 +165,7 @@ abstract class Character implements BattleEntityInterface
         foreach ($this->weaponList as $weapon)
             $weaponVP += $weapon->getVp();
 
-        $summedVP = $this->vp + $gearVP + $weaponVP;
-        return $this->getLeveledStat($summedVP);
+        return $this->getLeveledStat($this->vp) + $gearVP + $weaponVP;
     }
 
     /**
