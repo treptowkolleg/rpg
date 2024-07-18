@@ -149,7 +149,7 @@ abstract class Character implements BattleEntityInterface
      */
     public function getHp(): int
     {
-        return $this->getLeveledStat($this->hp);
+        return $this->getLeveledStat($this->hpMax);
     }
 
     /**

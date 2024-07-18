@@ -100,6 +100,11 @@ class TerminalEngine
         return $this->characterList[$index];
     }
 
+    public function addCharacter($character): void
+    {
+        $this->characterList[] = $character;
+    }
+
     /**
      * @return Weapon[]
      */
