@@ -7,15 +7,17 @@ use Btinet\Rpg\Character\Gear\Gear;
 use Btinet\Rpg\Character\Weapon\Weapon;
 use Btinet\Rpg\Config\ConfigInterface;
 use Btinet\Rpg\System\Out;
+use Btinet\Rpg\View\View;
 use Btinet\Rpg\View\ViewInterface;
 use Error;
-use Exception;
 use PhpTui\Term\Terminal;
 use PhpTui\Tui\Bridge\PhpTerm\PhpTermBackend;
 use PhpTui\Tui\Display\Display;
 use PhpTui\Tui\DisplayBuilder;
 use PhpTui\Tui\Widget\Widget;
 use Serializable;
+use SplObserver;
+use SplSubject;
 use TypeError;
 
 class TerminalEngine implements Serializable
@@ -39,6 +41,15 @@ class TerminalEngine implements Serializable
      */
     private array $gearList;
 
+    // Here goes the actual Observer management infrastructure. Note that it's
+    // not everything that our class is responsible for. Its primary business
+    // logic is listed below these methods.
+
+    /**
+     * @var array
+     */
+    private array $observers = [];
+
     public function __construct(ConfigInterface $config)
     {
         $this->terminal = Terminal::new();
@@ -49,8 +60,23 @@ class TerminalEngine implements Serializable
         $this->weaponList = $config::weaponLibrary();
         $this->gearList = $config::gearLibrary();
 
+        $this->observers["*"] = [];
+
         // Nicht unter Windows verfügbar (außer über WSL)
         readline_callback_handler_install("", function() {});
+    }
+
+    public function attach(SplObserver $observer, string $event = "*"): void
+    {
+       $this->observers[$event][] = $observer;
+    }
+
+    /**
+     * @return array
+     */
+    public function getObservers(): array
+    {
+        return $this->observers;
     }
 
     /**
@@ -81,7 +107,7 @@ class TerminalEngine implements Serializable
     {
         if(class_exists($viewClassName)) {
             $viewObject = new $viewClassName($this);
-            if($viewObject instanceof ViewInterface) {
+            if($viewObject instanceof View) {
                 $viewObject->setup()->run();
             }
         }

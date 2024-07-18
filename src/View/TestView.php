@@ -17,6 +17,7 @@ class TestView extends View
             }
 
             if($input === "b") {
+                $this->notify("action:view","CharacterStatsView");
                 $this->getTerminalEngine()->renderView(CharacterStatsView::class);
                 break;
             }

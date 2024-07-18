@@ -10,10 +10,8 @@ use PhpTui\Tui\Extension\Core\Widget\Table\TableRow;
 use PhpTui\Tui\Extension\Core\Widget\TableWidget;
 use PhpTui\Tui\Layout\Constraint;
 use PhpTui\Tui\Style\Style;
-use PhpTui\Tui\Text\Title;
 use PhpTui\Tui\Widget\Borders;
 use PhpTui\Tui\Widget\HorizontalAlignment;
-use PhpTui\Tui\Widget\VerticalAlignment;
 
 class CharacterStatsView extends View
 {
@@ -26,14 +24,18 @@ class CharacterStatsView extends View
         while (true) {
             $input = $this->input();
             if($input === "a") {
+                $this->notify("action:view","Character Statistics");
                 $this->renderWidget(BlockComponent::create("Character Statistics",$this->table));
             }
             if($input === "b") {
+                $this->notify("action:view","TestView");
                 $this->getTerminalEngine()->renderView(TestView::class);
+
                 break;
             }
             if($input === "0") {
                 FileEngine::saveGame($this->getTerminalEngine());
+                $this->notify("action:save");
 
                 $this->renderWidget(BlockWidget::default()
                     ->style(Style::default()->green())
