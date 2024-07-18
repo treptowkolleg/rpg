@@ -10,13 +10,13 @@ class FileEngine
 
     public static function saveGame($object)
     {
-        file_put_contents(save_dir. "save.yaml", serialize(clone $object));
+        file_put_contents(save_dir. "dok.sav", serialize(clone $object));
     }
 
     public static function loadGame()
     {
         try {
-            return unserialize(file_get_contents(save_dir. "save.yaml"));
+            return unserialize(file_get_contents(save_dir. "dok.sav"));
         } catch (Exception $e) {
             Out::printAlert("{$e->getMessage()}");
         }

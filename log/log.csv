@@ -1,12 +1,3 @@
 Datum/Uhrzeit; Quelle; Ereignis; Bemerkung
-2024-07-18 20:54:06; Btinet\Rpg\View\CharacterStatsView; action:view; "TestView"
-2024-07-18 20:54:07; Btinet\Rpg\View\TestView; action:view; "CharacterStatsView"
-2024-07-18 20:54:07; Btinet\Rpg\View\CharacterStatsView; action:view; "TestView"
-2024-07-18 20:54:07; Btinet\Rpg\View\TestView; action:view; "CharacterStatsView"
-2024-07-18 20:54:07; Btinet\Rpg\View\CharacterStatsView; action:view; "Character Statistics"
-2024-07-18 20:54:08; Btinet\Rpg\View\CharacterStatsView; action:save; null
-2024-07-18 20:54:11; Btinet\Rpg\View\CharacterStatsView; action:view; "Character Statistics"
-2024-07-18 20:54:12; Btinet\Rpg\View\CharacterStatsView; action:view; "Character Statistics"
-2024-07-18 20:54:13; Btinet\Rpg\View\CharacterStatsView; action:view; "TestView"
-2024-07-18 20:54:14; Btinet\Rpg\View\TestView; action:view; "CharacterStatsView"
-2024-07-18 20:54:14; Btinet\Rpg\View\CharacterStatsView; action:view; "Character Statistics"
+2024-07-18 21:28:49; Btinet\Rpg\View\CharacterStatsView; action:view; "Character Statistics"
+2024-07-18 21:28:50; Btinet\Rpg\View\CharacterStatsView; action:save; null

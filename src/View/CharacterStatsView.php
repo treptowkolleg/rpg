@@ -77,7 +77,7 @@ class CharacterStatsView extends View
         foreach ($this->getTerminalEngine()->getCharacterList() as $char) {
             $charRows[] = TableRow::fromStrings(
                 $char,
-                $char->getHp(),
+                "{$char->getHp()}/{$char->getHpMax()}",
                 $char->getAp(),
                 $char->getDp(),
                 $char->getVp(),

@@ -13,7 +13,7 @@ class Tifa extends Character
     {
         parent::__construct(
             "Tifa Lockheart",
-            5096,
+            500,
             120,
             9,
             1,
@@ -30,6 +30,7 @@ class Tifa extends Character
                 new LeatherGlove()
             ]
         );
+        $this->equipWeapon($this->getWeapon(0));
     }
 
 }

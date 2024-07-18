@@ -6,6 +6,7 @@ use Btinet\Rpg\Battle\BattleEntityInterface;
 use Btinet\Rpg\Character\Character;
 use Btinet\Rpg\Character\Gear\TitanBangle;
 use Btinet\Rpg\Character\Weapon\BusterSword;
+use Btinet\Rpg\Character\Weapon\ButterflyEdge;
 use Btinet\Rpg\Item\Item;
 
 class Cloud extends Character
@@ -15,8 +16,8 @@ class Cloud extends Character
     {
         parent::__construct(
             "Cloud Strife",
-            2048,
-            120,
+            670,
+            160,
             10,
             1,
             9,
@@ -29,7 +30,7 @@ class Cloud extends Character
             ],
             1,
             [
-                new BusterSword()
+                new ButterflyEdge()
             ]
         );
 

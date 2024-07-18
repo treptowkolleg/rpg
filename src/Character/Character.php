@@ -73,7 +73,7 @@ abstract class Character implements BattleEntityInterface
         $this->label = $name;
 
         $this->exp = $exp;
-        $this->hp = $hp;
+        $this->hp = $this->getLeveledStat($hp);
         $this->hpMax = $hp;
         $this->ap = $ap;
         $this->attackMultiplication = $apFactor;
@@ -128,7 +128,7 @@ abstract class Character implements BattleEntityInterface
         $weaponAp = 0;
         if($this->currentWeapon)
             $weaponAp = $this->currentWeapon?->getAp();
-        return $this->getLeveledStat($this->ap * ActionEngine::differ($this->attackMultiplication) + $weaponAp);
+        return $this->getLeveledStat($this->ap * ActionEngine::differ($this->attackMultiplication)) + $weaponAp;
     }
 
     /**
@@ -141,13 +141,21 @@ abstract class Character implements BattleEntityInterface
         foreach ($this->gearList as $gear) {
             $gearDp += $gear->getDp() * $gear->getDefenseMultiplication();
         }
-        return $this->getLeveledStat($this->dp * ActionEngine::differ($this->defenseMultiplication) + $gearDp);
+        return $this->getLeveledStat($this->dp * ActionEngine::differ($this->defenseMultiplication)) + $gearDp;
     }
 
     /**
      * @return int
      */
     public function getHp(): int
+    {
+        return $this->hp;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHpMax(): int
     {
         return $this->getLeveledStat($this->hpMax);
     }
