@@ -16,6 +16,8 @@ class LoggerEngine implements SplObserver
         if (file_exists($this->filename)) {
             unlink($this->filename);
         }
+        $entry = "Datum/Uhrzeit, Quelle, Ereignis, Bemerkung\n";
+        file_put_contents($this->filename, $entry, FILE_APPEND);
     }
 
     /**
