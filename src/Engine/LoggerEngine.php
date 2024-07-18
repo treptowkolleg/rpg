@@ -16,7 +16,7 @@ class LoggerEngine implements SplObserver
         if (file_exists($this->filename)) {
             unlink($this->filename);
         }
-        $entry = "Datum/Uhrzeit, Quelle, Ereignis, Bemerkung\n";
+        $entry = "Datum/Uhrzeit; Quelle; Ereignis; Bemerkung\n";
         file_put_contents($this->filename, $entry, FILE_APPEND);
     }
 
@@ -28,7 +28,7 @@ class LoggerEngine implements SplObserver
     public function update(SplSubject $subject, string $event = null, $data = null)
     {
         $class = get_class($subject);
-        $entry = date("Y-m-d H:i:s") . ", $class, $event, " . json_encode($data) . "\n";
+        $entry = date("Y-m-d H:i:s") . "; $class; $event; " . json_encode($data) . "\n";
         file_put_contents($this->filename, $entry, FILE_APPEND);
     }
 
