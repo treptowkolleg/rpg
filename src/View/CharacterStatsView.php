@@ -4,8 +4,10 @@ namespace Btinet\Rpg\View;
 
 use Btinet\Rpg\Component\BlockComponent;
 use Btinet\Rpg\Engine\FileEngine;
+use PhpTui\Tui\Display\Cell;
 use PhpTui\Tui\Extension\Core\Widget\BlockWidget;
 use PhpTui\Tui\Extension\Core\Widget\ParagraphWidget;
+use PhpTui\Tui\Extension\Core\Widget\Table\TableCell;
 use PhpTui\Tui\Extension\Core\Widget\Table\TableRow;
 use PhpTui\Tui\Extension\Core\Widget\TableWidget;
 use PhpTui\Tui\Layout\Constraint;
@@ -19,13 +21,11 @@ class CharacterStatsView extends View
 
     public function run(): void
     {
-        $this->clear()->draw(ParagraphWidget::fromString("a für View, b für TestView"));
-
         while (true) {
             $input = $this->input();
             if($input === "a") {
-                $this->notify("action:view","Character Statistics");
-                $this->renderWidget(BlockComponent::create("Character Statistics",$this->table));
+                $this->notify("action:view","Character-Auswahl");
+                $this->renderWidget(BlockComponent::create("Character-Auswahl",$this->table));
             }
             if($input === "b") {
                 $this->notify("action:view","TestView");
@@ -41,7 +41,7 @@ class CharacterStatsView extends View
                     ->style(Style::default()->green())
                     ->borders(Borders::ALL)
                     ->widget(
-                        ParagraphWidget::fromString("Spielstand gespeichert!")
+                        ParagraphWidget::fromString("Spielstand wird gespeichert...")
                             ->alignment(HorizontalAlignment::Center)
                             ->style(Style::default()->green())
                     )
@@ -53,6 +53,7 @@ class CharacterStatsView extends View
                 $selectedIndex = $this->table->state->selected;
                 if($selectedIndex > 0) {
                     $this->table->select(--$selectedIndex);
+                    $this->getTerminalEngine()->setCurrentCharacter($selectedIndex);
                 }
                 $this->renderWidget(BlockComponent::create("Character Statistics",$this->table));
             }
@@ -61,6 +62,7 @@ class CharacterStatsView extends View
                 $selectedIndex = $this->table->state->selected;
                 if($selectedIndex < $rowCount) {
                     $this->table->select(++$selectedIndex);
+                    $this->getTerminalEngine()->setCurrentCharacter($selectedIndex);
                 }
                 $this->renderWidget(BlockComponent::create("Character Statistics",$this->table));
             }
@@ -117,9 +119,20 @@ class CharacterStatsView extends View
                     '1. Rüstung',
                 )->height(1)->bottomMargin(1)
             )
-            ->select(0)
         ;
+        if($this->getTerminalEngine()->getCurrentCharacter() == null) {
+            $this->table->select(0);
+            $this->getTerminalEngine()->setCurrentCharacter(0);
+        } else {
+            foreach ($this->getTerminalEngine()->getCharacterList() as $id => $character) {
+                if($character === $this->getTerminalEngine()->getCurrentCharacter()) {
+                    $this->table->select($id);
+                }
+            }
+        }
         $this->table->rows = array_values($charRows);
+        $this->renderWidget(BlockComponent::create("Character-Auswahl",$this->table));
+
         return $this;
     }
 

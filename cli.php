@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Btinet\Rpg\Config\Config;
 use Btinet\Rpg\Engine\FileEngine;
 use Btinet\Rpg\Engine\LoggerEngine;
@@ -12,6 +14,7 @@ require 'vendor/autoload.php';
 
 const save_dir = __DIR__. DIRECTORY_SEPARATOR . "savegame" . DIRECTORY_SEPARATOR;
 const log_dir = __DIR__. DIRECTORY_SEPARATOR . "log" . DIRECTORY_SEPARATOR;
+const asset_dir = __DIR__. DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR;
 
 $app = null;
 // Terminal-Anwendung laden oder neu erzeugen
@@ -19,11 +22,12 @@ try {
     $object = FileEngine::loadGame();
     if($object instanceof TerminalEngine) {
         $app = $object;
-        Out::printAlert("Letzten Stand geladen",background: BackgroundColor::green);
+        Out::printAlert("Spielstand wird geladen...",background: BackgroundColor::green);
     } else {
         $app = new TerminalEngine(Config::new());
-        Out::printAlert("Neues Spiel gestartet",background: BackgroundColor::blue);
+        Out::printAlert("Neues Spiel wird gestartet...",background: BackgroundColor::blue);
     }
+    sleep(2);
 } catch (Exception $exception) {
     Out::printAlert($exception->getMessage());
 }

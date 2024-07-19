@@ -1,3 +1,1 @@
-Datum/Uhrzeit; Quelle; Ereignis; Bemerkung
-2024-07-18 21:28:49; Btinet\Rpg\View\CharacterStatsView; action:view; "Character Statistics"
-2024-07-18 21:28:50; Btinet\Rpg\View\CharacterStatsView; action:save; null
+Datum/Uhrzeit, Quelle, Ereignis, Bemerkung

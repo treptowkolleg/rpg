@@ -2,7 +2,12 @@
 
 namespace Btinet\Rpg\View;
 
+use Btinet\Rpg\Component\TabComponent;
 use Btinet\Rpg\Engine\TerminalEngine;
+use PhpTui\Tui\Extension\Core\Widget\GridWidget;
+use PhpTui\Tui\Extension\Core\Widget\TableWidget;
+use PhpTui\Tui\Layout\Constraint;
+use PhpTui\Tui\Widget\Direction;
 use PhpTui\Tui\Widget\Widget;
 use SplObserver;
 use SplSubject;
@@ -86,9 +91,20 @@ abstract class View implements ViewInterface, SplSubject
         return $this;
     }
 
-    public function renderWidget(Widget $widget): self
+    public function renderWidget(Widget $widget, $select = 0): self
     {
-        $this->clear()->draw($widget);
+        $grid = GridWidget::default()
+            ->direction(Direction::Vertical)
+            ->constraints(
+                Constraint::percentage(10),
+                Constraint::percentage(90),
+            )
+            ->widgets(
+                TabComponent::create($select),
+                $widget
+            )
+        ;
+        $this->clear()->draw($grid);
         return $this;
     }
 

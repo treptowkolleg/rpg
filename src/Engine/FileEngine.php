@@ -20,6 +20,7 @@ class FileEngine
         } catch (Exception $e) {
             Out::printAlert("{$e->getMessage()}");
         }
+        return null;
     }
 
 }

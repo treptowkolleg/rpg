@@ -14,6 +14,7 @@ use PhpTui\Term\Terminal;
 use PhpTui\Tui\Bridge\PhpTerm\PhpTermBackend;
 use PhpTui\Tui\Display\Display;
 use PhpTui\Tui\DisplayBuilder;
+use PhpTui\Tui\Extension\ImageMagick\ImageMagickExtension;
 use PhpTui\Tui\Widget\Widget;
 use Serializable;
 use SplObserver;
@@ -30,6 +31,8 @@ class TerminalEngine implements Serializable
      * @var array<Character>
      */
     private array $characterList;
+
+    private ?Character $currentCharacter = null;
 
     /**
      * @var array<Weapon>
@@ -53,7 +56,7 @@ class TerminalEngine implements Serializable
     public function __construct(ConfigInterface $config)
     {
         $this->terminal = Terminal::new();
-        $this->display = DisplayBuilder::default(PhpTermBackend::new($this->terminal))->build();
+        $this->display = DisplayBuilder::default(PhpTermBackend::new($this->terminal))->addExtension(new ImageMagickExtension())->build();
         $this->display->clear();
 
         $this->characterList = $config::characterLibrary();
@@ -126,6 +129,22 @@ class TerminalEngine implements Serializable
         return $this->characterList;
     }
 
+    /**
+     * @return Character|null
+     */
+    public function getCurrentCharacter(): ?Character
+    {
+        return $this->currentCharacter;
+    }
+
+    /**
+     * @param int $index
+     */
+    public function setCurrentCharacter(int $index): void
+    {
+        $this->currentCharacter = $this->getCharacter($index);
+    }
+
     public function getCharacter(int $index): Character
     {
         return $this->characterList[$index];
@@ -159,6 +178,7 @@ class TerminalEngine implements Serializable
     {
         return serialize([
             $this->characterList,
+            $this->currentCharacter,
             $this->gearList,
             $this->weaponList
         ]);
@@ -179,6 +199,7 @@ class TerminalEngine implements Serializable
         try {
             list(
                 $this->characterList,
+                $this->currentCharacter,
                 $this->gearList,
                 $this->weaponList
                 ) = unserialize($data);
