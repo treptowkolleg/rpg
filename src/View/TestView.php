@@ -3,6 +3,7 @@
 namespace Btinet\Rpg\View;
 
 use Btinet\Rpg\Component\BlockComponent;
+use Btinet\Rpg\Component\MainTabComponent;
 use PhpTui\Tui\Extension\Core\Widget\BlockWidget;
 use PhpTui\Tui\Extension\Core\Widget\CompositeWidget;
 use PhpTui\Tui\Extension\Core\Widget\ParagraphWidget;
@@ -11,31 +12,22 @@ use PhpTui\Tui\Extension\Core\Widget\ScrollbarWidget;
 use PhpTui\Tui\Extension\ImageMagick\Widget\ImageWidget;
 use PhpTui\Tui\Text\Title;
 use PhpTui\Tui\Widget\Borders;
+use PhpTui\Tui\Widget\Widget;
 
 class TestView extends View
 {
     private ScrollbarState $scrollbarState;
     private ScrollbarWidget $scrollbar;
     private ParagraphWidget $content;
-    private \PhpTui\Tui\Widget\Widget $block;
+    private Widget $block;
+
+    protected static int $tab = 1;
 
     public function run(): void
     {
         while (true) {
             $input = $this->input();
-
-            if($input === "a") {
-                $this->notify("action:view","CharacterStatsView");
-                $this->getTerminalEngine()->renderView(CharacterStatsView::class);
-                break;
-            }
-
-            if($input === "b") {
-                $this->renderWidget(CompositeWidget::fromWidgets(
-                    $this->block = BlockComponent::create("Fenster 1",$this->content = ParagraphWidget::fromString($this->getTerminalEngine()->getCurrentCharacter()))
-                )
-                ,1);
-            }
+            if(MainTabComponent::run($this,$input)) break;
         }
     }
 
@@ -47,7 +39,7 @@ class TestView extends View
         $this->renderWidget(CompositeWidget::fromWidgets(
             $this->block = BlockComponent::create("Fenster 1",$this->content = ParagraphWidget::fromString($this->getTerminalEngine()->getCurrentCharacter()))
         )
-        ,1);
+        ,self::$tab);
         return $this;
     }
 }

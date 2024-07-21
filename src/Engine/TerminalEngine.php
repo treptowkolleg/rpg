@@ -6,6 +6,7 @@ use Btinet\Rpg\Character\Character;
 use Btinet\Rpg\Character\Gear\Gear;
 use Btinet\Rpg\Character\Weapon\Weapon;
 use Btinet\Rpg\Config\ConfigInterface;
+use Btinet\Rpg\Monster\Monster;
 use Btinet\Rpg\System\Out;
 use Btinet\Rpg\View\View;
 use Btinet\Rpg\View\ViewInterface;
@@ -44,6 +45,11 @@ class TerminalEngine implements Serializable
      */
     private array $gearList;
 
+    /**
+     * @var array<Monster>
+     */
+    private array $monsterList;
+
     // Here goes the actual Observer management infrastructure. Note that it's
     // not everything that our class is responsible for. Its primary business
     // logic is listed below these methods.
@@ -62,6 +68,7 @@ class TerminalEngine implements Serializable
         $this->characterList = $config::characterLibrary();
         $this->weaponList = $config::weaponLibrary();
         $this->gearList = $config::gearLibrary();
+        $this->monsterList = $config::monsterLibrary();
 
         $this->observers["*"] = [];
 
@@ -172,6 +179,14 @@ class TerminalEngine implements Serializable
     }
 
     /**
+     * @return Monster[]
+     */
+    public function getMonsterList()
+    {
+        return $this->monsterList;
+    }
+
+    /**
      * @return string|null
      */
     public function serialize(): ?string
@@ -180,7 +195,8 @@ class TerminalEngine implements Serializable
             $this->characterList,
             $this->currentCharacter,
             $this->gearList,
-            $this->weaponList
+            $this->weaponList,
+            $this->monsterList
         ]);
     }
 
@@ -201,7 +217,8 @@ class TerminalEngine implements Serializable
                 $this->characterList,
                 $this->currentCharacter,
                 $this->gearList,
-                $this->weaponList
+                $this->weaponList,
+                $this->monsterList
                 ) = unserialize($data);
         } catch (TypeError|Error $exception) {
             Out::printAlert($exception->getMessage());

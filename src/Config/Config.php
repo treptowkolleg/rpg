@@ -3,10 +3,22 @@
 namespace Btinet\Rpg\Config;
 
 use Btinet\Rpg\Character\Character;
+use Btinet\Rpg\Character\Gear\BronzeBangle;
 use Btinet\Rpg\Character\Gear\Gear;
+use Btinet\Rpg\Character\Gear\TitanBangle;
+use Btinet\Rpg\Character\Predefined\Cloud;
+use Btinet\Rpg\Character\Predefined\Tifa;
+use Btinet\Rpg\Character\Weapon\BusterSword;
+use Btinet\Rpg\Character\Weapon\ButterflyEdge;
+use Btinet\Rpg\Character\Weapon\HardEdge;
+use Btinet\Rpg\Character\Weapon\LeatherGlove;
+use Btinet\Rpg\Character\Weapon\MythrilSaber;
 use Btinet\Rpg\Character\Weapon\Weapon;
 use Btinet\Rpg\Item\Item;
+use Btinet\Rpg\Item\Potion;
+use Btinet\Rpg\Monster\Army\AttackSquad;
 use Btinet\Rpg\Monster\Monster;
+use Btinet\Rpg\Monster\MonsterBuilder;
 
 class Config implements ConfigInterface
 {
@@ -16,8 +28,8 @@ class Config implements ConfigInterface
     public static function characterLibrary(): array
     {
         return [
-            new \Btinet\Rpg\Character\Predefined\Cloud(),
-            new \Btinet\Rpg\Character\Predefined\Tifa()
+            new Cloud(),
+            new Tifa()
         ];
     }
 
@@ -27,7 +39,11 @@ class Config implements ConfigInterface
     public static function weaponLibrary(): array
     {
         return [
-
+            new BusterSword(),
+            new HardEdge(),
+            new ButterflyEdge(),
+            new MythrilSaber(),
+            new LeatherGlove()
         ];
     }
 
@@ -37,7 +53,8 @@ class Config implements ConfigInterface
     public static function gearLibrary(): array
     {
         return [
-
+            new BronzeBangle(),
+            new TitanBangle()
         ];
     }
 
@@ -47,7 +64,7 @@ class Config implements ConfigInterface
     public static function itemLibrary(): array
     {
         return [
-
+            new Potion()
         ];
     }
 
@@ -57,7 +74,7 @@ class Config implements ConfigInterface
     public static function monsterLibrary(): array
     {
         return [
-
+            MonsterBuilder::AttackSquad()
         ];
     }
 

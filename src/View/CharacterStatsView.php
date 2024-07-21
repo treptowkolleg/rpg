@@ -3,11 +3,10 @@
 namespace Btinet\Rpg\View;
 
 use Btinet\Rpg\Component\BlockComponent;
+use Btinet\Rpg\Component\MainTabComponent;
 use Btinet\Rpg\Engine\FileEngine;
-use PhpTui\Tui\Display\Cell;
 use PhpTui\Tui\Extension\Core\Widget\BlockWidget;
 use PhpTui\Tui\Extension\Core\Widget\ParagraphWidget;
-use PhpTui\Tui\Extension\Core\Widget\Table\TableCell;
 use PhpTui\Tui\Extension\Core\Widget\Table\TableRow;
 use PhpTui\Tui\Extension\Core\Widget\TableWidget;
 use PhpTui\Tui\Layout\Constraint;
@@ -19,20 +18,15 @@ class CharacterStatsView extends View
 {
     private TableWidget $table;
 
+    protected static int $tab = 0;
+
     public function run(): void
     {
         while (true) {
             $input = $this->input();
-            if($input === "a") {
-                $this->notify("action:view","Character-Auswahl");
-                $this->renderWidget(BlockComponent::create("Character-Auswahl",$this->table));
-            }
-            if($input === "b") {
-                $this->notify("action:view","TestView");
-                $this->getTerminalEngine()->renderView(TestView::class);
 
-                break;
-            }
+            if(MainTabComponent::run($this, $input)) break;
+
             if($input === "0") {
                 FileEngine::saveGame($this->getTerminalEngine());
                 $this->notify("action:save");
@@ -47,7 +41,7 @@ class CharacterStatsView extends View
                     )
                 );
                 sleep(3);
-                $this->renderWidget(BlockComponent::create("Character Statistics",$this->table));
+                $this->renderWidget(BlockComponent::create("Character Statistics",$this->table),self::$tab);
             }
             if($input === "-") {
                 $selectedIndex = $this->table->state->selected;
@@ -55,7 +49,7 @@ class CharacterStatsView extends View
                     $this->table->select(--$selectedIndex);
                     $this->getTerminalEngine()->setCurrentCharacter($selectedIndex);
                 }
-                $this->renderWidget(BlockComponent::create("Character Statistics",$this->table));
+                $this->renderWidget(BlockComponent::create("Character Statistics",$this->table),self::$tab);
             }
             if($input === "+") {
                 $rowCount = count($this->table->rows)-1;
@@ -64,7 +58,7 @@ class CharacterStatsView extends View
                     $this->table->select(++$selectedIndex);
                     $this->getTerminalEngine()->setCurrentCharacter($selectedIndex);
                 }
-                $this->renderWidget(BlockComponent::create("Character Statistics",$this->table));
+                $this->renderWidget(BlockComponent::create("Character Statistics",$this->table),self::$tab);
             }
         }
     }
@@ -131,7 +125,7 @@ class CharacterStatsView extends View
             }
         }
         $this->table->rows = array_values($charRows);
-        $this->renderWidget(BlockComponent::create("Character-Auswahl",$this->table));
+        $this->renderWidget(BlockComponent::create("Character-Auswahl",$this->table),self::$tab);
 
         return $this;
     }

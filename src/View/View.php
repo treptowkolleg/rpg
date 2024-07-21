@@ -5,7 +5,6 @@ namespace Btinet\Rpg\View;
 use Btinet\Rpg\Component\TabComponent;
 use Btinet\Rpg\Engine\TerminalEngine;
 use PhpTui\Tui\Extension\Core\Widget\GridWidget;
-use PhpTui\Tui\Extension\Core\Widget\TableWidget;
 use PhpTui\Tui\Layout\Constraint;
 use PhpTui\Tui\Widget\Direction;
 use PhpTui\Tui\Widget\Widget;
@@ -14,6 +13,8 @@ use SplSubject;
 
 abstract class View implements ViewInterface, SplSubject
 {
+
+    protected static int $tab = 0;
 
     private TerminalEngine $terminalEngine;
     private array $observers = [];
@@ -25,6 +26,7 @@ abstract class View implements ViewInterface, SplSubject
     {
         $this->terminalEngine = $terminalEngine;
         $this->observers = $terminalEngine->getObservers();
+        $this->clear();
     }
 
     private function initEventGroup(string $event = "*"): void

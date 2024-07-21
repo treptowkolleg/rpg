@@ -15,7 +15,7 @@ use Btinet\Rpg\Engine\ActionEngine;
 use Btinet\Rpg\Item\Item;
 use Btinet\Rpg\System\Out;
 
-abstract class Monster implements BattleEntityInterface
+class Monster implements BattleEntityInterface
 {
     use LabelTrait;
     use ExperienceTrait;
@@ -40,7 +40,7 @@ abstract class Monster implements BattleEntityInterface
     {
         $this->label = $name;
         $this->exp = $exp;
-        $this->hp = $hp;
+        $this->hp = $this->getLeveledStat($hp);
         $this->hpMax = $hp;
         $this->ap = $ap;
         $this->attackMultiplication = $apFactor;
@@ -71,7 +71,15 @@ abstract class Monster implements BattleEntityInterface
      */
     public function getHp(): int
     {
-        return $this->getLeveledStat($this->hp);
+        return $this->hp;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHpMax(): int
+    {
+        return $this->getLeveledStat($this->hpMax);
     }
 
     public function attack(Character|Monster $entity): void
