@@ -2,114 +2,63 @@
 
 namespace Btinet\Rpg\Monster;
 
-use Btinet\Rpg\Battle\BattleEntityInterface;
-use JetBrains\PhpStorm\Pure;
 
-class MonsterFactory
+abstract class MonsterFactory
 {
 
-    private string $name = "Monster";
-    private int $exp = 4096;
-    private int $hp = 100;
-    private int $ap = 5;
-    private float $apFactor = 1;
-    private int $dp = 5;
-    private float $dpFactor = 1;
-    private float $hitRate = .96;
-    private float $vp = 1;
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): self
+    public static function RouletteCannon(): Monster
     {
-        $this->name = $name;
-        return $this;
+        $factory = new MonsterBuilder();
+        return $factory
+            ->setName("Roulette Cannon")
+            ->setExp(150000)
+            ->build();
     }
 
-    /**
-     * @param int $exp
-     * @return MonsterFactory
-     */
-    public function setExp(int $exp): self
+    public static function RocketLauncher(): Monster
     {
-        $this->exp = $exp;
-        return $this;
+        $factory = new MonsterBuilder();
+        return $factory
+            ->setName("Rocket Launcher")
+            ->setExp(100000)
+            ->build();
     }
 
-    /**
-     * @param int $hp
-     * @return MonsterFactory
-     */
-    public function setHp(int $hp): self
+    public static function MP(): Monster
     {
-        $this->hp = $hp;
-        return $this;
+        $factory = new MonsterBuilder();
+        return $factory
+            ->setName("MP")
+            ->setExp(50000)
+            ->build();
     }
 
-    /**
-     * @param int $ap
-     * @return MonsterFactory
-     */
-    public function setAp(int $ap): self
+    public static function Captain(): Monster
     {
-        $this->ap = $ap;
-        return $this;
+        $factory = new MonsterBuilder();
+        return $factory
+            ->setName("Captain")
+            ->setExp(25000)
+            ->build();
     }
 
-    /**
-     * @param float|int $apFactor
-     * @return MonsterFactory
-     */
-    public function setApFactor(float|int $apFactor): self
+    public static function AttackSquad(): Monster
     {
-        $this->apFactor = $apFactor;
-        return $this;
+        $factory = new MonsterBuilder();
+        return $factory
+            ->setName("Attack Squad")
+            ->setExp(5000)
+            ->build();
     }
 
-    /**
-     * @param int $dp
-     * @return MonsterFactory
-     */
-    public function setDp(int $dp): self
+    public static function Marine(): Monster
     {
-        $this->dp = $dp;
-        return $this;
-    }
-
-    /**
-     * @param float|int $dpFactor
-     * @return MonsterFactory
-     */
-    public function setDpFactor(float|int $dpFactor): self
-    {
-        $this->dpFactor = $dpFactor;
-        return $this;
-    }
-
-    /**
-     * @param float $hitRate
-     * @return MonsterFactory
-     */
-    public function setHitRate(float $hitRate): self
-    {
-        $this->hitRate = $hitRate;
-        return $this;
-    }
-
-    /**
-     * @param float|int $vp
-     * @return MonsterFactory
-     */
-    public function setVp(float|int $vp): self
-    {
-        $this->vp = $vp;
-        return $this;
-    }
-
-    #[Pure] public function build(): Monster
-    {
-        return new Monster($this->name, $this->exp, $this->hp, $this->ap, $this->apFactor, $this->dp, $this->dpFactor, $this->hitRate, $this->vp);
+        $factory = new MonsterBuilder();
+        return $factory
+            ->setName("Marine")
+            ->setExp(500)
+            ->build();
     }
 
 }

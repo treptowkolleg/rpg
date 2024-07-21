@@ -4,8 +4,12 @@ namespace Btinet\Rpg\View;
 
 use Btinet\Rpg\Component\BlockComponent;
 use Btinet\Rpg\Component\MainTabComponent;
+use PhpTui\Term\Event\CharKeyEvent;
+use PhpTui\Term\Event\CodedKeyEvent;
+use PhpTui\Term\KeyCode;
 use PhpTui\Tui\Extension\Core\Widget\CompositeWidget;
 use PhpTui\Tui\Extension\Core\Widget\ParagraphWidget;
+use PhpTui\Tui\Extension\Core\Widget\ScrollbarWidget;
 use PhpTui\Tui\Extension\Core\Widget\Table\TableRow;
 use PhpTui\Tui\Extension\Core\Widget\TableWidget;
 use PhpTui\Tui\Layout\Constraint;
@@ -67,16 +71,43 @@ class MonsterView extends View
             )
         ;
         $this->table->rows = array_values($charRows);
-        $this->renderWidget(BlockComponent::create("Monsterliste",$this->table),self::$tab);
+        $this->renderWidget(
+            BlockComponent::create("Monsterliste",$this->table),self::$tab
+        );
         return $this;
     }
 
     public function run(): void
     {
-        while (true) {
-            $input = $this->input();
-            if(MainTabComponent::run($this,$input)) break;
+        while(true){
+            while (null !== $event = $this->getTerminalEngine()->getTerminal()->events()->next()) {
+                $input = $this->input();
+                if(MainTabComponent::run($this,$input)) break 2;
+
+                if ($event instanceof CodedKeyEvent) {
+                    if ($event->code === KeyCode::Esc) {
+                        echo "ESC gedrückt";
+                        break 2;
+                    }
+                }
+
+                if ($event instanceof CodedKeyEvent) {
+                    if ($event->code === KeyCode::Left) {
+                        echo "Links gedrückt";
+                    }
+                }
+
+                if ($event instanceof CharKeyEvent) {
+                    if ($event->char === 'a') {
+                        $this->notify("action:view","CharacterStatsView");
+                        $this->getTerminalEngine()->renderView(CharacterStatsView::class);
+                        break 2;
+                    }
+                }
+
+            }
         }
+
     }
 
 }

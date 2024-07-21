@@ -18,7 +18,7 @@ use Btinet\Rpg\Item\Item;
 use Btinet\Rpg\Item\Potion;
 use Btinet\Rpg\Monster\Army\AttackSquad;
 use Btinet\Rpg\Monster\Monster;
-use Btinet\Rpg\Monster\MonsterBuilder;
+use Btinet\Rpg\Monster\MonsterFactory;
 
 class Config implements ConfigInterface
 {
@@ -74,7 +74,12 @@ class Config implements ConfigInterface
     public static function monsterLibrary(): array
     {
         return [
-            MonsterBuilder::AttackSquad()
+            MonsterFactory::RouletteCannon(),
+            MonsterFactory::RocketLauncher(),
+            MonsterFactory::MP(),
+            MonsterFactory::Captain(),
+            MonsterFactory::AttackSquad(),
+            MonsterFactory::Marine(),
         ];
     }
 

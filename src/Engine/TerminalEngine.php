@@ -5,6 +5,7 @@ namespace Btinet\Rpg\Engine;
 use Btinet\Rpg\Character\Character;
 use Btinet\Rpg\Character\Gear\Gear;
 use Btinet\Rpg\Character\Weapon\Weapon;
+use Btinet\Rpg\Config\Config;
 use Btinet\Rpg\Config\ConfigInterface;
 use Btinet\Rpg\Monster\Monster;
 use Btinet\Rpg\System\Out;
@@ -196,7 +197,6 @@ class TerminalEngine implements Serializable
             $this->currentCharacter,
             $this->gearList,
             $this->weaponList,
-            $this->monsterList
         ]);
     }
 
@@ -206,6 +206,7 @@ class TerminalEngine implements Serializable
     public function unserialize($data)
     {
         $this->terminal = Terminal::new();
+        $this->monsterList = Config::monsterLibrary();
         $this->display = DisplayBuilder::default(PhpTermBackend::new($this->terminal))->build();
         $this->display->clear();
 
@@ -218,7 +219,6 @@ class TerminalEngine implements Serializable
                 $this->currentCharacter,
                 $this->gearList,
                 $this->weaponList,
-                $this->monsterList
                 ) = unserialize($data);
         } catch (TypeError|Error $exception) {
             Out::printAlert($exception->getMessage());
