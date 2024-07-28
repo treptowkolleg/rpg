@@ -5,6 +5,13 @@ namespace Btinet\Rpg\View;
 use Btinet\Rpg\Component\BlockComponent;
 use Btinet\Rpg\Component\MainTabComponent;
 use Btinet\Rpg\Engine\FileEngine;
+use Btinet\Rpg\System\BackgroundColor;
+use Btinet\Rpg\System\Out;
+use Btinet\Rpg\System\TextColor;
+use PhpTui\Term\Event\CharKeyEvent;
+use PhpTui\Term\Event\CodedKeyEvent;
+use PhpTui\Term\Event\KeyEvent;
+use PhpTui\Term\KeyCode;
 use PhpTui\Tui\Extension\Core\Widget\BlockWidget;
 use PhpTui\Tui\Extension\Core\Widget\ParagraphWidget;
 use PhpTui\Tui\Extension\Core\Widget\Table\TableRow;
@@ -22,45 +29,55 @@ class CharacterStatsView extends View
 
     public function run(): void
     {
-        while (true) {
-            $input = $this->input();
+        while(true) {
+            while (null !== $event = $this->getTerminalEngine()->getTerminal()->events()->next()) {
 
-            if(MainTabComponent::run($this, $input)) break;
+                if (MainTabComponent::run($this, $event)) break 2;
 
-            if($input === "0") {
-                FileEngine::saveGame($this->getTerminalEngine());
-                $this->notify("action:save");
+                if ($event instanceof CodedKeyEvent and $event->code === KeyCode::Insert) {
+                    FileEngine::saveGame($this->getTerminalEngine());
+                    $this->notify("action:save");
 
-                $this->renderWidget(BlockWidget::default()
-                    ->style(Style::default()->green())
-                    ->borders(Borders::ALL)
-                    ->widget(
-                        ParagraphWidget::fromString("Spielstand wird gespeichert...")
-                            ->alignment(HorizontalAlignment::Center)
-                            ->style(Style::default()->green())
-                    )
-                );
-                sleep(3);
-                $this->renderWidget(BlockComponent::create("Character Statistics",$this->table),self::$tab);
-            }
-            if($input === "-") {
-                $selectedIndex = $this->table->state->selected;
-                if($selectedIndex > 0) {
-                    $this->table->select(--$selectedIndex);
-                    $this->getTerminalEngine()->setCurrentCharacter($selectedIndex);
+                    $this->renderWidget(BlockWidget::default()
+                        ->style(Style::default()->green())
+                        ->borders(Borders::ALL)
+                        ->widget(
+                            ParagraphWidget::fromString("Spielstand wird gespeichert...")
+                                ->alignment(HorizontalAlignment::Center)
+                                ->style(Style::default()->green())
+                        )
+                    );
+                    sleep(3);
+                    $this->renderWidget(BlockComponent::create("Character Statistics", $this->table), self::$tab);
                 }
-                $this->renderWidget(BlockComponent::create("Character Statistics",$this->table),self::$tab);
-            }
-            if($input === "+") {
-                $rowCount = count($this->table->rows)-1;
-                $selectedIndex = $this->table->state->selected;
-                if($selectedIndex < $rowCount) {
-                    $this->table->select(++$selectedIndex);
-                    $this->getTerminalEngine()->setCurrentCharacter($selectedIndex);
+                if ($event  instanceof CodedKeyEvent and $event->code === KeyCode::Up) {
+                    $selectedIndex = $this->table->state->selected;
+                    if ($selectedIndex > 0) {
+                        $this->table->select(--$selectedIndex);
+                        $this->getTerminalEngine()->setCurrentCharacter($selectedIndex);
+                    }
+                    $this->renderWidget(BlockComponent::create("Character Statistics", $this->table), self::$tab);
                 }
-                $this->renderWidget(BlockComponent::create("Character Statistics",$this->table),self::$tab);
+                if ($event  instanceof CodedKeyEvent and $event->code === KeyCode::Down) {
+                    $rowCount = count($this->table->rows) - 1;
+                    $selectedIndex = $this->table->state->selected;
+                    if ($selectedIndex < $rowCount) {
+                        $this->table->select(++$selectedIndex);
+                        $this->getTerminalEngine()->setCurrentCharacter($selectedIndex);
+                    }
+                    $this->renderWidget(BlockComponent::create("Character Statistics", $this->table), self::$tab);
+                }
+                if ($event  instanceof CodedKeyEvent and $event->code === KeyCode::Delete) {
+                    $this->getTerminalEngine()->getDisplay()->clear();
+                    Out::printAlert("Spiel wird beendet...", TextColor::lightBlue,BackgroundColor::black);
+                    sleep(3);
+                    $this->getTerminalEngine()->getDisplay()->clear();
+                    break 2;
+
+                }
             }
         }
+
     }
 
     /**

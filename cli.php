@@ -8,6 +8,7 @@ use Btinet\Rpg\Engine\LoggerEngine;
 use Btinet\Rpg\Engine\TerminalEngine;
 use Btinet\Rpg\System\BackgroundColor;
 use Btinet\Rpg\System\Out;
+use Btinet\Rpg\System\TextColor;
 use Btinet\Rpg\View\CharacterStatsView;
 
 require 'vendor/autoload.php';
@@ -22,10 +23,10 @@ try {
     $object = FileEngine::loadGame();
     if($object instanceof TerminalEngine) {
         $app = $object;
-        Out::printAlert("Spielstand wird geladen...",background: BackgroundColor::green);
+        Out::printAlert("Spielstand wird geladen...", TextColor::lightGreen, BackgroundColor::black);
     } else {
         $app = new TerminalEngine(Config::new());
-        Out::printAlert("Neues Spiel wird gestartet...",background: BackgroundColor::blue);
+        Out::printAlert("Neues Spiel wird gestartet...", TextColor::lightBlue,BackgroundColor::black);
     }
     sleep(2);
 } catch (Exception $exception) {

@@ -22,8 +22,9 @@ class ItemView extends View
     public function run(): void
     {
         while (true) {
-            $input = $this->input();
-            if(MainTabComponent::run($this,$input)) break;
+            while (null !== $event = $this->getTerminalEngine()->getTerminal()->events()->next()) {
+                if(MainTabComponent::run($this,$event)) break 2;
+            }
         }
     }
 }

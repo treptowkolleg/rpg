@@ -81,8 +81,8 @@ class MonsterView extends View
     {
         while(true){
             while (null !== $event = $this->getTerminalEngine()->getTerminal()->events()->next()) {
-                $input = $this->input();
-                if(MainTabComponent::run($this,$input)) break 2;
+
+                if(MainTabComponent::run($this,$event)) break 2;
 
                 if ($event instanceof CodedKeyEvent) {
                     if ($event->code === KeyCode::Esc) {
