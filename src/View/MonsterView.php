@@ -70,6 +70,16 @@ class MonsterView extends View
                 )->height(1)->bottomMargin(1)
             )
         ;
+        if($this->getTerminalEngine()->getCurrentMonster() == null) {
+            $this->table->select(0);
+            $this->getTerminalEngine()->setCurrentMonster(0);
+        } else {
+            foreach ($this->getTerminalEngine()->getMonsterList() as $id => $monster) {
+                if($monster === $this->getTerminalEngine()->getCurrentMonster()) {
+                    $this->table->select($id);
+                }
+            }
+        }
         $this->table->rows = array_values($charRows);
         $this->renderWidget(
             BlockComponent::create("Monsterliste",$this->table),self::$tab
@@ -82,27 +92,25 @@ class MonsterView extends View
         while(true){
             while (null !== $event = $this->getTerminalEngine()->getTerminal()->events()->next()) {
 
-                if(MainTabComponent::run($this,$event)) break 2;
+                if(MainTabComponent::run($this,$event, self::$tab)) break 2;
 
-                if ($event instanceof CodedKeyEvent) {
-                    if ($event->code === KeyCode::Esc) {
-                        echo "ESC gedrückt";
-                        break 2;
+                if ($event  instanceof CodedKeyEvent and $event->code === KeyCode::Up) {
+                    $selectedIndex = $this->table->state->selected;
+                    if ($selectedIndex > 0) {
+                        $this->table->select(--$selectedIndex);
+                        $this->getTerminalEngine()->setCurrentMonster($selectedIndex);
                     }
+                    $this->renderWidget(BlockComponent::create("Monsterliste",$this->table),self::$tab);
                 }
 
-                if ($event instanceof CodedKeyEvent) {
-                    if ($event->code === KeyCode::Left) {
-                        echo "Links gedrückt";
+                if ($event  instanceof CodedKeyEvent and $event->code === KeyCode::Down) {
+                    $rowCount = count($this->table->rows) - 1;
+                    $selectedIndex = $this->table->state->selected;
+                    if ($selectedIndex < $rowCount) {
+                        $this->table->select(++$selectedIndex);
+                        $this->getTerminalEngine()->setCurrentMonster($selectedIndex);
                     }
-                }
-
-                if ($event instanceof CharKeyEvent) {
-                    if ($event->char === 'a') {
-                        $this->notify("action:view","CharacterStatsView");
-                        $this->getTerminalEngine()->renderView(CharacterStatsView::class);
-                        break 2;
-                    }
+                    $this->renderWidget(BlockComponent::create("Monsterliste",$this->table),self::$tab);
                 }
 
             }

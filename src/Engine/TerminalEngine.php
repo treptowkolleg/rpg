@@ -5,12 +5,10 @@ namespace Btinet\Rpg\Engine;
 use Btinet\Rpg\Character\Character;
 use Btinet\Rpg\Character\Gear\Gear;
 use Btinet\Rpg\Character\Weapon\Weapon;
-use Btinet\Rpg\Config\Config;
 use Btinet\Rpg\Config\ConfigInterface;
 use Btinet\Rpg\Monster\Monster;
 use Btinet\Rpg\System\Out;
 use Btinet\Rpg\View\View;
-use Btinet\Rpg\View\ViewInterface;
 use Error;
 use PhpTui\Term\Terminal;
 use PhpTui\Tui\Bridge\PhpTerm\PhpTermBackend;
@@ -59,6 +57,10 @@ class TerminalEngine implements Serializable
      * @var array
      */
     private array $observers = [];
+    /**
+     * @var Monster|mixed
+     */
+    private ?Monster $currentMonster = null;
 
     public function __construct(ConfigInterface $config)
     {
@@ -182,9 +184,24 @@ class TerminalEngine implements Serializable
     /**
      * @return Monster[]
      */
-    public function getMonsterList()
+    public function getMonsterList(): array
     {
         return $this->monsterList;
+    }
+
+    public function setCurrentMonster(int $selectedIndex)
+    {
+        $this->currentMonster = $this->getMonster($selectedIndex);
+    }
+
+    public function getCurrentMonster(): ?Monster
+    {
+        return $this->currentMonster;
+    }
+
+    private function getMonster($index)
+    {
+        return $this->monsterList[$index];
     }
 
     /**
@@ -197,6 +214,8 @@ class TerminalEngine implements Serializable
             $this->currentCharacter,
             $this->gearList,
             $this->weaponList,
+            $this->monsterList,
+            $this->currentMonster,
         ]);
     }
 
@@ -206,7 +225,6 @@ class TerminalEngine implements Serializable
     public function unserialize($data)
     {
         $this->terminal = Terminal::new();
-        $this->monsterList = Config::monsterLibrary();
         $this->display = DisplayBuilder::default(PhpTermBackend::new($this->terminal))->build();
         $this->display->clear();
 
@@ -219,6 +237,8 @@ class TerminalEngine implements Serializable
                 $this->currentCharacter,
                 $this->gearList,
                 $this->weaponList,
+                $this->monsterList,
+                $this->currentMonster,
                 ) = unserialize($data);
         } catch (TypeError|Error $exception) {
             Out::printAlert($exception->getMessage());
@@ -227,4 +247,3 @@ class TerminalEngine implements Serializable
     }
 
 }
-

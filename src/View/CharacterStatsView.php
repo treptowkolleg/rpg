@@ -34,22 +34,6 @@ class CharacterStatsView extends View
 
                 if (MainTabComponent::run($this, $event)) break 2;
 
-                if ($event instanceof CodedKeyEvent and $event->code === KeyCode::Insert) {
-                    FileEngine::saveGame($this->getTerminalEngine());
-                    $this->notify("action:save");
-
-                    $this->renderWidget(BlockWidget::default()
-                        ->style(Style::default()->green())
-                        ->borders(Borders::ALL)
-                        ->widget(
-                            ParagraphWidget::fromString("Spielstand wird gespeichert...")
-                                ->alignment(HorizontalAlignment::Center)
-                                ->style(Style::default()->green())
-                        )
-                    );
-                    sleep(3);
-                    $this->renderWidget(BlockComponent::create("Character Statistics", $this->table), self::$tab);
-                }
                 if ($event  instanceof CodedKeyEvent and $event->code === KeyCode::Up) {
                     $selectedIndex = $this->table->state->selected;
                     if ($selectedIndex > 0) {
@@ -58,6 +42,7 @@ class CharacterStatsView extends View
                     }
                     $this->renderWidget(BlockComponent::create("Character Statistics", $this->table), self::$tab);
                 }
+
                 if ($event  instanceof CodedKeyEvent and $event->code === KeyCode::Down) {
                     $rowCount = count($this->table->rows) - 1;
                     $selectedIndex = $this->table->state->selected;
@@ -67,14 +52,7 @@ class CharacterStatsView extends View
                     }
                     $this->renderWidget(BlockComponent::create("Character Statistics", $this->table), self::$tab);
                 }
-                if ($event  instanceof CodedKeyEvent and $event->code === KeyCode::Delete) {
-                    $this->getTerminalEngine()->getDisplay()->clear();
-                    Out::printAlert("Spiel wird beendet...", TextColor::lightBlue,BackgroundColor::black);
-                    sleep(3);
-                    $this->getTerminalEngine()->getDisplay()->clear();
-                    break 2;
 
-                }
             }
         }
 

@@ -4,6 +4,11 @@ namespace Btinet\Rpg\View;
 
 use Btinet\Rpg\Component\BlockComponent;
 use Btinet\Rpg\Component\MainTabComponent;
+use Btinet\Rpg\System\BackgroundColor;
+use Btinet\Rpg\System\Out;
+use Btinet\Rpg\System\TextColor;
+use PhpTui\Term\Event\CodedKeyEvent;
+use PhpTui\Term\KeyCode;
 use PhpTui\Tui\Extension\Core\Widget\BlockWidget;
 use PhpTui\Tui\Extension\Core\Widget\CompositeWidget;
 use PhpTui\Tui\Extension\Core\Widget\ParagraphWidget;
@@ -27,7 +32,8 @@ class TestView extends View
     {
         while (true) {
             while (null !== $event = $this->getTerminalEngine()->getTerminal()->events()->next()) {
-                if(MainTabComponent::run($this,$event)) break 2;
+                if(MainTabComponent::run($this,$event, self::$tab)) break 2;
+
             }
         }
     }
