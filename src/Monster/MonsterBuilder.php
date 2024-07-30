@@ -9,6 +9,7 @@ class MonsterBuilder
 {
 
     private string $name = "Monster";
+    private string $avatar = "images/rouletteCanon.jpg";
     private int $exp = 4096;
     private int $hp = 100;
     private int $ap = 5;
@@ -17,6 +18,7 @@ class MonsterBuilder
     private float $dpFactor = 1;
     private float $hitRate = .96;
     private float $vp = 1;
+    private bool $defeated = false;
 
     /**
      * @param string $name
@@ -24,6 +26,16 @@ class MonsterBuilder
     public function setName(string $name): self
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @param string $avatar
+     * @return MonsterBuilder
+     */
+    public function setAvatar(string $avatar): self
+    {
+        $this->avatar = $avatar;
         return $this;
     }
 
@@ -107,9 +119,20 @@ class MonsterBuilder
         return $this;
     }
 
-    #[Pure] public function build(): Monster
+    /**
+     * @param mixed $defeated
+     */
+    public function setDefeated(bool $defeated): self
     {
-        return new Monster($this->name, $this->exp, $this->hp, $this->ap, $this->apFactor, $this->dp, $this->dpFactor, $this->hitRate, $this->vp);
+        $this->defeated = $defeated;
+        return $this;
+    }
+
+    public function build(string $class = Monster::class): ?Monster
+    {
+        if($class instanceof Monster)
+            return new $class($this->name, $this->avatar, $this->exp, $this->hp, $this->ap, $this->apFactor, $this->dp, $this->dpFactor, $this->hitRate, $this->vp, $this->defeated);
+        return null;
     }
 
 }

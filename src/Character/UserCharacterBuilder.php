@@ -8,6 +8,7 @@ class UserCharacterBuilder
 {
 
     private string $name;
+    private string $avatar = '';
     private int $hp = 120;
     private int $ap = 6;
     private float $attackFactor = 1.0;
@@ -22,6 +23,16 @@ class UserCharacterBuilder
     public function setName(string $name): UserCharacterBuilder
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @param string $avatar
+     * @return UserCharacterBuilder
+     */
+    public function setAvatar(string $avatar): UserCharacterBuilder
+    {
+        $this->avatar = $avatar;
         return $this;
     }
 
@@ -85,7 +96,8 @@ class UserCharacterBuilder
     }
 
     /**
-     * @param Potion $potions
+     * @param Potion $potion
+     * @return UserCharacterBuilder
      */
     public function addPotion(Potion $potion): UserCharacterBuilder
     {
@@ -98,7 +110,7 @@ class UserCharacterBuilder
      */
     public function create(): UserCharacter
     {
-        return new UserCharacter($this->name, $this->hp, $this->ap, $this->attackFactor, $this->dp, $this->defenseFactor, $this->potions);
+        return new UserCharacter($this->name, $this->avatar, $this->hp, $this->ap, $this->attackFactor, $this->dp, $this->defenseFactor, $this->potions);
     }
 
 }

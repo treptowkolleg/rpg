@@ -16,6 +16,7 @@ class Cloud extends Character
     {
         parent::__construct(
             "Cloud Strife",
+            "images/cloud.jpg",
             670,
             160,
             10,

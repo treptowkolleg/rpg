@@ -33,6 +33,13 @@ class MonsterView extends View
         $charRows = [];
 
         foreach ($this->getTerminalEngine()->getMonsterList() as $char) {
+
+            $defeated = $char->isDefeated() ? 'ja' : 'nein';
+            $stars = round($char->getLevel()/10);
+            $starString = '';
+            if ($stars <= 0) $stars = 1;
+            for($i = 1; $i <= $stars; $i++) $starString .= '★';
+
             $charRows[] = TableRow::fromStrings(
                 $char,
                 "{$char->getHp()}/{$char->getHpMax()}",
@@ -41,14 +48,16 @@ class MonsterView extends View
                 $char->getVp(),
                 $char->getHitRate(),
                 $char->getExp(),
-                $char->getLevel(),
+                $starString,
+                $defeated
             );
         }
 
         $this->table = TableWidget::default()
             ->widths(
+                Constraint::percentage(10),
                 Constraint::percentage(20),
-                Constraint::percentage(20),
+                Constraint::percentage(10),
                 Constraint::percentage(10),
                 Constraint::percentage(10),
                 Constraint::percentage(10),
@@ -67,6 +76,7 @@ class MonsterView extends View
                     'Trefferquote',
                     'EXP',
                     'Level',
+                    'erledigt?'
                 )->height(1)->bottomMargin(1)
             )
         ;

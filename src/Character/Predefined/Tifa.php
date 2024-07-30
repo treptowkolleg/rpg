@@ -13,6 +13,7 @@ class Tifa extends Character
     {
         parent::__construct(
             "Tifa Lockheart",
+            "images/tifa.jpg",
             500,
             120,
             9,

@@ -3,6 +3,8 @@
 namespace Btinet\Rpg\Monster;
 
 
+use Btinet\Rpg\Monster\Army\AttackSquad;
+
 abstract class MonsterFactory
 {
 
@@ -12,6 +14,7 @@ abstract class MonsterFactory
         $factory = new MonsterBuilder();
         return $factory
             ->setName("Roulette Cannon")
+            ->setAvatar("images/rouletteCanon.jpg")
             ->setExp(150000)
             ->build();
     }
@@ -31,7 +34,7 @@ abstract class MonsterFactory
         return $factory
             ->setName("MP")
             ->setExp(50000)
-            ->build();
+            ->build(AttackSquad::class);
     }
 
     public static function Captain(): Monster
@@ -58,6 +61,7 @@ abstract class MonsterFactory
         return $factory
             ->setName("Marine")
             ->setExp(500)
+            ->setDefeated(true)
             ->build();
     }
 

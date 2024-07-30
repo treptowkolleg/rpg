@@ -10,6 +10,7 @@ use Btinet\Rpg\Character\Stats\ExperienceTrait;
 use Btinet\Rpg\Character\Stats\HealthPointTrait;
 use Btinet\Rpg\Character\Stats\HitRateTrait;
 use Btinet\Rpg\Character\Stats\VitalityPointTrait;
+use Btinet\Rpg\Character\Utility\AvatarTrait;
 use Btinet\Rpg\Character\Utility\LabelTrait;
 use Btinet\Rpg\Engine\ActionEngine;
 use Btinet\Rpg\Item\Item;
@@ -18,6 +19,7 @@ use Btinet\Rpg\System\Out;
 class Monster implements BattleEntityInterface
 {
     use LabelTrait;
+    use AvatarTrait;
     use ExperienceTrait;
     use HealthPointTrait;
     use AttackPointTrait;
@@ -25,9 +27,13 @@ class Monster implements BattleEntityInterface
     use HitRateTrait;
     use VitalityPointTrait;
 
+    private string $currentAttack;
+    private bool $defeated;
+
     public function __construct
     (
         string $name,
+        string $avatar,
         int $exp,
         int $hp,
         int $ap,
@@ -36,9 +42,11 @@ class Monster implements BattleEntityInterface
         float $dpFactor,
         float $hitRate,
         float $vp,
+        bool $defeated = false,
     )
     {
         $this->label = $name;
+        $this->setAvatar($avatar);
         $this->exp = $exp;
         $this->hp = $this->getLeveledStat($hp);
         $this->hpMax = $hp;
@@ -48,6 +56,7 @@ class Monster implements BattleEntityInterface
         $this->defenseMultiplication = $dpFactor;
         $this->hitRate = $hitRate;
         $this->vp = $vp;
+        $this->defeated = $defeated;
     }
 
     /**
@@ -80,6 +89,40 @@ class Monster implements BattleEntityInterface
     public function getHpMax(): int
     {
         return $this->getLeveledStat($this->hpMax);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrentAttack(): string
+    {
+        return $this->currentAttack;
+    }
+
+    /**
+     * @param string $currentAttack
+     * @return Monster
+     */
+    public function setCurrentAttack(string $currentAttack): Monster
+    {
+        $this->currentAttack = $currentAttack;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDefeated(): bool
+    {
+        return $this->defeated;
+    }
+
+    /**
+     * @param bool $defeated
+     */
+    public function setDefeated(bool $defeated): void
+    {
+        $this->defeated = $defeated;
     }
 
     public function attack(Character|Monster $entity): void

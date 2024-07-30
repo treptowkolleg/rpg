@@ -10,6 +10,7 @@ use Btinet\Rpg\Character\Stats\ExperienceTrait;
 use Btinet\Rpg\Character\Stats\HealthPointTrait;
 use Btinet\Rpg\Character\Stats\MoodPointTrait;
 use Btinet\Rpg\Character\Stats\VitalityPointTrait;
+use Btinet\Rpg\Character\Utility\AvatarTrait;
 use Btinet\Rpg\Character\Utility\LabelTrait;
 use Btinet\Rpg\Character\Weapon\Weapon;
 use Btinet\Rpg\Engine\ActionEngine;
@@ -22,6 +23,7 @@ abstract class Character implements BattleEntityInterface
 {
     // Label
     use LabelTrait;
+    use AvatarTrait;
 
     // Basic Stats
     use ExperienceTrait;
@@ -53,6 +55,7 @@ abstract class Character implements BattleEntityInterface
     public function __construct
     (
         string $name,
+        string $avatar,
 
         int $exp,
         int $hp,
@@ -71,6 +74,7 @@ abstract class Character implements BattleEntityInterface
     )
     {
         $this->label = $name;
+        $this->setAvatar($avatar);
 
         $this->exp = $exp;
         $this->hp = $this->getLeveledStat($hp);

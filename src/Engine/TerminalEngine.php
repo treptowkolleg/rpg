@@ -14,6 +14,7 @@ use PhpTui\Term\Terminal;
 use PhpTui\Tui\Bridge\PhpTerm\PhpTermBackend;
 use PhpTui\Tui\Display\Display;
 use PhpTui\Tui\DisplayBuilder;
+use PhpTui\Tui\Extension\Core\CoreExtension;
 use PhpTui\Tui\Extension\ImageMagick\ImageMagickExtension;
 use PhpTui\Tui\Widget\Widget;
 use Serializable;
@@ -65,7 +66,10 @@ class TerminalEngine implements Serializable
     public function __construct(ConfigInterface $config)
     {
         $this->terminal = Terminal::new();
-        $this->display = DisplayBuilder::default(PhpTermBackend::new($this->terminal))->addExtension(new ImageMagickExtension())->build();
+        $this->display = DisplayBuilder::default(PhpTermBackend::new($this->terminal))
+            ->addExtension(new ImageMagickExtension())
+            ->addExtension(new CoreExtension())
+            ->build();
         $this->display->clear();
 
         $this->characterList = $config::characterLibrary();
