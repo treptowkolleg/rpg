@@ -3,6 +3,10 @@
 namespace Btinet\Rpg\Monster\Army;
 
 
+use Btinet\Rpg\Ability\Ability;
+use Btinet\Rpg\Ability\Grenade;
+use Btinet\Rpg\Ability\MachineGun;
+use Btinet\Rpg\Ability\SmokeBullet;
 use Btinet\Rpg\Character\Character;
 use Btinet\Rpg\Monster\Monster;
 use Btinet\Rpg\Monster\MonsterAI;
@@ -10,7 +14,9 @@ use Btinet\Rpg\Monster\MonsterAI;
 class AttackSquad extends Monster implements MonsterAI
 {
 
-    // TODO: Eigene Ability-Klasse implementieren (ähnlich wie Waffen)
+    /**
+     * @var array<Ability>
+     */
     private array $abilities = [];
 
     private int $counter = 0;
@@ -21,9 +27,9 @@ class AttackSquad extends Monster implements MonsterAI
     public function setup(): void
     {
         $this->abilities = [
-          "Maschinengewehr",
-          "Granate",
-          "Rauchbombe",
+          new MachineGun(),
+          new Grenade(),
+          new SmokeBullet(),
         ];
     }
 
