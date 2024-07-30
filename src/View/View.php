@@ -2,6 +2,7 @@
 
 namespace Btinet\Rpg\View;
 
+use Btinet\Rpg\Component\BlockComponent;
 use Btinet\Rpg\Component\TabComponent;
 use Btinet\Rpg\Engine\TerminalEngine;
 use PhpTui\Tui\Extension\Core\Widget\GridWidget;
@@ -98,11 +99,11 @@ abstract class View implements ViewInterface, SplSubject
         $grid = GridWidget::default()
             ->direction(Direction::Vertical)
             ->constraints(
-                Constraint::percentage(10),
-                Constraint::percentage(90),
+                Constraint::length(3),
+                Constraint::length(1),
             )
             ->widgets(
-                TabComponent::create($select),
+                BlockComponent::create('', TabComponent::create($select)),
                 $widget
             )
         ;

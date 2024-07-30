@@ -19,7 +19,7 @@ use PhpTui\Tui\Text\Title;
 use PhpTui\Tui\Widget\Borders;
 use PhpTui\Tui\Widget\Widget;
 
-class TestView extends View
+class EquipView extends View
 {
     private ScrollbarState $scrollbarState;
     private ScrollbarWidget $scrollbar;
@@ -33,7 +33,6 @@ class TestView extends View
         while (true) {
             while (null !== $event = $this->getTerminalEngine()->getTerminal()->events()->next()) {
                 if(MainTabComponent::run($this,$event, self::$tab)) break 2;
-
             }
         }
     }

@@ -9,7 +9,7 @@ use Btinet\Rpg\System\TextColor;
 use Btinet\Rpg\View\CharacterStatsView;
 use Btinet\Rpg\View\ItemView;
 use Btinet\Rpg\View\MonsterView;
-use Btinet\Rpg\View\TestView;
+use Btinet\Rpg\View\EquipView;
 use Btinet\Rpg\View\View;
 use PhpTui\Term\Event\CharKeyEvent;
 use PhpTui\Term\Event\CodedKeyEvent;
@@ -67,7 +67,7 @@ class MainTabComponent
 
         if($event  instanceof CharKeyEvent and $event->char === "b") {
             $view->notify("action:view","ItemView");
-            $view->getTerminalEngine()->renderView(TestView::class);
+            $view->getTerminalEngine()->renderView(EquipView::class);
             return true;
         }
 

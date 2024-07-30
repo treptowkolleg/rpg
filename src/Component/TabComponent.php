@@ -15,10 +15,11 @@ class TabComponent
     {
         return TabsWidget::default()->style(Style::default()->lightBlue()->onBlack())
             ->titles(
-                Line::fromString('(a) Character'),
+                Line::fromString('(a) Kampfmitglieder'),
                 Line::fromString('(b) Ausrüstung'),
-                Line::fromString('(c) Inventar'),
+                Line::fromString('(c) Shop'),
                 Line::fromString('(d) Gegner'),
+                Line::fromString('Kampfarena'),
             )
             ->select($select)
             ->highlightStyle(Style::default()->white()->onLightBlue())

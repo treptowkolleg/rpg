@@ -2,6 +2,7 @@
 
 namespace Btinet\Rpg\View;
 
+use Btinet\Rpg\Component\BlockComponent;
 use Btinet\Rpg\Component\MainTabComponent;
 use PhpTui\Tui\Canvas\Marker;
 use PhpTui\Tui\Color\AnsiColor;
@@ -27,35 +28,33 @@ class ItemView extends View
      */
     public function setup(): ViewInterface
     {
-        if(file_exists(asset_dir. 'images/tifa.jpg')) {
-            $this->renderWidget(
-                GridWidget::default()
-                    ->direction(Direction::Vertical)
-                    ->constraints(
-                        Constraint::percentage(60),
-                        Constraint::percentage(40),
-                    )
-                ->widgets(
-                    GridWidget::default()
-                        ->direction(Direction::Horizontal)
-                        ->constraints(
-                            Constraint::percentage(20),
-                            Constraint::percentage(30),
-                            Constraint::percentage(30),
-                            Constraint::percentage(20),
-                        )
-                        ->widgets(
-                            $this->getTerminalEngine()->getCurrentCharacter()->getAvatar(),
-                            ParagraphWidget::fromString("Links")->alignment(HorizontalAlignment::Center),
-                            ParagraphWidget::fromString("rechts")->alignment(HorizontalAlignment::Center),
-                            $this->getTerminalEngine()->getCurrentMonster()->getAvatar(),
-                        )
+        $currentCharacter = $this->getTerminalEngine()->getCurrentCharacter();
+        $title = "Kaufe Gegenstände für $currentCharacter";
+        $this->renderWidget(
+            GridWidget::default()
+                ->direction(Direction::Vertical)
+                ->constraints(
+                    Constraint::length(3),
+                    Constraint::length(100),
                 )
-                ,
-                2);
-        } else {
-            echo "Bild nicht gefunden!";
-        }
+            ->widgets(
+                BlockComponent::create("Shop",ParagraphWidget::fromString($title)->alignment(HorizontalAlignment::Left)),
+                GridWidget::default()
+                    ->direction(Direction::Horizontal)
+                    ->constraints(
+                        Constraint::length(30),
+                        Constraint::length(30),
+                        Constraint::length(30),
+                    )
+                    ->widgets(
+                        BlockComponent::create("Waffen",ParagraphWidget::fromString("Links")->alignment(HorizontalAlignment::Left)),
+                        BlockComponent::create("Rüstung",ParagraphWidget::fromString("Links")->alignment(HorizontalAlignment::Left)),
+                        BlockComponent::create("Items",ParagraphWidget::fromString("Links")->alignment(HorizontalAlignment::Left)),
+                    )
+            )
+            ,
+            2
+        );
 
         return $this;
     }

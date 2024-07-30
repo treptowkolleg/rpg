@@ -127,6 +127,12 @@ class MonsterView extends View
                     $this->renderWidget(BlockComponent::create("Monsterliste",$this->table),self::$tab);
                 }
 
+                if ($event  instanceof CodedKeyEvent and $event->code === KeyCode::Tab) {
+                    $this->notify("action:view","BattleView");
+                    $this->getTerminalEngine()->renderView(BattleView::class);
+                    break 2;
+                }
+
             }
         }
 
