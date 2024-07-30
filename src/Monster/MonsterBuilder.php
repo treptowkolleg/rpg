@@ -128,9 +128,9 @@ class MonsterBuilder
         return $this;
     }
 
-    public function build(string $class = Monster::class): ?Monster
+    public function build(string $class): ?Monster
     {
-        if($class instanceof Monster)
+        if(class_exists($class))
             return new $class($this->name, $this->avatar, $this->exp, $this->hp, $this->ap, $this->apFactor, $this->dp, $this->dpFactor, $this->hitRate, $this->vp, $this->defeated);
         return null;
     }

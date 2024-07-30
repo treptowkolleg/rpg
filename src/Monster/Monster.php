@@ -10,13 +10,13 @@ use Btinet\Rpg\Character\Stats\ExperienceTrait;
 use Btinet\Rpg\Character\Stats\HealthPointTrait;
 use Btinet\Rpg\Character\Stats\HitRateTrait;
 use Btinet\Rpg\Character\Stats\VitalityPointTrait;
+use Btinet\Rpg\Character\Utility\AbilityTrait;
 use Btinet\Rpg\Character\Utility\AvatarTrait;
 use Btinet\Rpg\Character\Utility\LabelTrait;
 use Btinet\Rpg\Engine\ActionEngine;
-use Btinet\Rpg\Item\Item;
 use Btinet\Rpg\System\Out;
 
-class Monster implements BattleEntityInterface
+abstract class Monster implements BattleEntityInterface, MonsterAI
 {
     use LabelTrait;
     use AvatarTrait;
@@ -26,6 +26,7 @@ class Monster implements BattleEntityInterface
     use DefensePointTrait;
     use HitRateTrait;
     use VitalityPointTrait;
+    use AbilityTrait;
 
     private string $currentAttack;
     private bool $defeated;
@@ -57,6 +58,7 @@ class Monster implements BattleEntityInterface
         $this->hitRate = $hitRate;
         $this->vp = $vp;
         $this->defeated = $defeated;
+        $this->setup();
     }
 
     /**
@@ -136,16 +138,6 @@ class Monster implements BattleEntityInterface
                 ActionEngine::criticalHit($selfAP);
         }
         $entity->modifyHp($selfAP);
-    }
-
-    public function apply(Item $item, BattleEntityInterface $entity): void
-    {
-        // TODO: Implement apply() method.
-    }
-
-    public function defend(): void
-    {
-        // TODO: Implement defend() method.
     }
 
 }

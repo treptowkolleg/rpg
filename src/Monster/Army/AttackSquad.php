@@ -2,24 +2,17 @@
 
 namespace Btinet\Rpg\Monster\Army;
 
-
-use Btinet\Rpg\Ability\Ability;
 use Btinet\Rpg\Ability\Grenade;
 use Btinet\Rpg\Ability\MachineGun;
 use Btinet\Rpg\Ability\SmokeBullet;
 use Btinet\Rpg\Character\Character;
+use Btinet\Rpg\Item\Item;
 use Btinet\Rpg\Monster\Monster;
-use Btinet\Rpg\Monster\MonsterAI;
 
-class AttackSquad extends Monster implements MonsterAI
+class AttackSquad extends Monster
 {
-
-    /**
-     * @var array<Ability>
-     */
-    private array $abilities = [];
-
     private int $counter = 0;
+
 
     /**
      * AI einrichten
@@ -57,6 +50,16 @@ class AttackSquad extends Monster implements MonsterAI
                 $this->counter = 0;
             }
         }
+    }
+
+    public function apply(Item $item, Character|Monster $entity): void
+    {
+        // TODO: Implement apply() method.
+    }
+
+    public function defend(): void
+    {
+        // TODO: Implement defend() method.
     }
 
 }

@@ -6,10 +6,11 @@ use Btinet\Rpg\Ability\Ability;
 
 trait AbilityTrait
 {
+
     /**
      * @var array<Ability>
      */
-    private array $abilities = [];
+    protected array $abilities = [];
 
     /**
      * @return Ability[]

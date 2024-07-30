@@ -47,6 +47,7 @@ class MonsterView extends View
                 $char->getDp(),
                 $char->getVp(),
                 $char->getHitRate(),
+                count($char->getAbilities()),
                 $char->getExp(),
                 $starString,
                 $defeated
@@ -55,15 +56,17 @@ class MonsterView extends View
 
         $this->table = TableWidget::default()
             ->widths(
-                Constraint::percentage(10),
-                Constraint::percentage(20),
-                Constraint::percentage(10),
-                Constraint::percentage(10),
-                Constraint::percentage(10),
-                Constraint::percentage(10),
-                Constraint::percentage(10),
-                Constraint::percentage(10),
-                Constraint::percentage(10),
+                Constraint::length(20),
+                Constraint::length(12),
+                Constraint::length(10),
+                Constraint::length(10),
+                Constraint::length(10),
+                Constraint::length(20),
+                Constraint::length(16),
+                Constraint::length(10),
+                Constraint::length(10),
+                Constraint::length(10),
+                Constraint::length(10),
             )
             ->highlightStyle(Style::default()->white()->onBlue())
             ->header(
@@ -74,6 +77,7 @@ class MonsterView extends View
                     'Defense',
                     'Vitality',
                     'Trefferquote',
+                    'Fähigkeiten',
                     'EXP',
                     'Level',
                     'erledigt?'

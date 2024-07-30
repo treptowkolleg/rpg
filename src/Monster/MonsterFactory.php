@@ -4,6 +4,11 @@ namespace Btinet\Rpg\Monster;
 
 
 use Btinet\Rpg\Monster\Army\AttackSquad;
+use Btinet\Rpg\Monster\Army\Captain;
+use Btinet\Rpg\Monster\Army\Marine;
+use Btinet\Rpg\Monster\Army\MP;
+use Btinet\Rpg\Monster\Army\RocketLauncher;
+use Btinet\Rpg\Monster\Army\RouletteCannon;
 
 abstract class MonsterFactory
 {
@@ -16,7 +21,7 @@ abstract class MonsterFactory
             ->setName("Roulette Cannon")
             ->setAvatar("images/rouletteCanon.jpg")
             ->setExp(150000)
-            ->build();
+            ->build(RouletteCannon::class);
     }
 
     public static function RocketLauncher(): Monster
@@ -25,7 +30,7 @@ abstract class MonsterFactory
         return $factory
             ->setName("Rocket Launcher")
             ->setExp(100000)
-            ->build();
+            ->build(RocketLauncher::class);
     }
 
     public static function MP(): Monster
@@ -34,7 +39,7 @@ abstract class MonsterFactory
         return $factory
             ->setName("MP")
             ->setExp(50000)
-            ->build(AttackSquad::class);
+            ->build(MP::class);
     }
 
     public static function Captain(): Monster
@@ -43,7 +48,7 @@ abstract class MonsterFactory
         return $factory
             ->setName("Captain")
             ->setExp(25000)
-            ->build();
+            ->build(Captain::class);
     }
 
     public static function AttackSquad(): Monster
@@ -52,7 +57,7 @@ abstract class MonsterFactory
         return $factory
             ->setName("Attack Squad")
             ->setExp(5000)
-            ->build();
+            ->build(AttackSquad::class);
     }
 
     public static function Marine(): Monster
@@ -62,7 +67,7 @@ abstract class MonsterFactory
             ->setName("Marine")
             ->setExp(500)
             ->setDefeated(true)
-            ->build();
+            ->build(Marine::class);
     }
 
 }
