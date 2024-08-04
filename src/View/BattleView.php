@@ -2,7 +2,11 @@
 
 namespace Btinet\Rpg\View;
 
+use Btinet\Rpg\Component\Battle\BattleComponent;
 use Btinet\Rpg\Component\BlockComponent;
+use Btinet\Rpg\System\BackgroundColor;
+use Btinet\Rpg\System\Out;
+use Btinet\Rpg\System\TextColor;
 use PhpTui\Term\Event\CodedKeyEvent;
 use PhpTui\Term\KeyCode;
 use PhpTui\Tui\Extension\Core\Widget\ParagraphWidget;
@@ -11,6 +15,8 @@ class BattleView extends View
 {
 
     protected static int $tab = 4;
+
+    protected BattleComponent $battleComponent;
 
     /**
      * Lege hier deine Widgets an. Nutze am besten Klassenattribute, um zwischendurch darauf zugreifen zu können.
@@ -23,7 +29,12 @@ class BattleView extends View
             $this->getTerminalEngine()->renderView(CharacterStatsView::class);
         }
 
-        $this->renderWidget(BlockComponent::create("Kampfarena", ParagraphWidget::fromString("Kampf beginnt!")),self::$tab);
+        $this->battleComponent = new BattleComponent($this->getTerminalEngine());
+
+        $this->renderWidget(
+            $this->battleComponent->default()
+            ,self::$tab);
+
         return $this;
     }
 
@@ -41,6 +52,15 @@ class BattleView extends View
 
                 if ($event  instanceof CodedKeyEvent and $event->code === KeyCode::Down) {
                     // TODO: Auswahl der Fähigkeiten
+                }
+
+                if ($event  instanceof CodedKeyEvent and $event->code === KeyCode::Delete) {
+                    $this->notify("action:system","shutdown");
+                    $this->getTerminalEngine()->getDisplay()->clear();
+                    Out::printAlert("Spiel wird beendet...", TextColor::lightBlue,BackgroundColor::black);
+                    sleep(3);
+                    $this->getTerminalEngine()->getDisplay()->clear();
+                    break 2;
                 }
             }
         }
