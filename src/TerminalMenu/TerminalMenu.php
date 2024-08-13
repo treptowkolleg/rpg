@@ -65,7 +65,7 @@ class TerminalMenu
             }
         }
         if($this->hasParent()) {
-            Out::printLn("{$this->parentMenu->getTitle()}: {$this->parentMenu->getKey()}",TextColor::green);
+            Out::printLn("{$this->parentMenu->getTitle()}: {$this->parentMenu->getKey()}");
         }
     }
 
@@ -135,6 +135,9 @@ class TerminalMenu
     public function addChildren(TerminalMenu ...$items): void
     {
         $this->children = array_merge($this->children, $items);
+        foreach ($items as $item) {
+            $item->setParentMenu($this);
+        }
     }
 
     private function runActions(): void

@@ -35,6 +35,6 @@ try {
 }
 $app->attach(new LoggerEngine(log_dir. "log.csv"));
 // Startansicht laden
-//$app?->renderView(CharacterStatsView::class);
+$app?->renderView(CharacterStatsView::class);
 
 
