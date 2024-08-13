@@ -35,9 +35,8 @@ class GameEngine
                         $this->makeTurn($player);
                     }
                 }
-                if($partyHP <= 0) break;
+                if($partyHP <= 0) break 2;
             }
-            if($partyHP <= 0) break;
         }
 
         Out::printHeading("Das Spiel ist zu Ende!",TextColor::lightBlue);

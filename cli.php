@@ -9,6 +9,7 @@ use Btinet\Rpg\Engine\TerminalEngine;
 use Btinet\Rpg\System\BackgroundColor;
 use Btinet\Rpg\System\Out;
 use Btinet\Rpg\System\TextColor;
+use Btinet\Rpg\TerminalMenu\TerminalMenu;
 use Btinet\Rpg\View\CharacterStatsView;
 
 require 'vendor/autoload.php';
@@ -34,5 +35,6 @@ try {
 }
 $app->attach(new LoggerEngine(log_dir. "log.csv"));
 // Startansicht laden
-$app?->renderView(CharacterStatsView::class);
+//$app?->renderView(CharacterStatsView::class);
+
 
