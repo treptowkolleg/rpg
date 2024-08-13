@@ -100,6 +100,7 @@ class TerminalMenu
             }
 
            if(strtolower($input) == 'exit') {
+               self::clearView();
                exit(0);
            }
         }
