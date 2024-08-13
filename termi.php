@@ -16,16 +16,16 @@ $tifa = new Tifa();
 
 $mainMenu = new TerminalMenu("Hauptmenü","main");
 $battleMenu = new TerminalMenu("Kampfmenü","kampf");
-$attackMenu = new TerminalMenu("Angriff","hit");
+$attackMenuItem = new TerminalMenu("Angriff","hit");
 
 // Methode implementieren und ausführen, wenn "hit" benutzt wird.
-$attackMenu->addAction(function() use($cloud,$tifa) {
+$attackMenuItem->addAction(function() use($cloud,$tifa) {
     $cloud->attack($tifa);
 });
 
 // Untermenüs bzw. Aktionen zu Menüs hinzufügen.
 $mainMenu->addChild($battleMenu);
-$battleMenu->addChild($attackMenu);
+$battleMenu->addChild($attackMenuItem);
 
 // Hauptmenü ausführen
 $mainMenu->render();

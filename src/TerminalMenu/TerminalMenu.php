@@ -3,6 +3,7 @@
 namespace Btinet\Rpg\TerminalMenu;
 
 use Btinet\Rpg\System\Out;
+use Btinet\Rpg\System\TextColor;
 use Closure;
 use JetBrains\PhpStorm\NoReturn;
 
@@ -57,14 +58,14 @@ class TerminalMenu
     private function renderMenu(bool $clearBefore = false): void
     {
         if ($clearBefore) self::clearView();
-        Out::printHeading($this->title);
+        Out::printHeading($this->title, TextColor::blue);
         foreach ($this->children as $child) {
             if($child instanceof TerminalMenu){
-                Out::printLn("{$child->getTitle()}: {$child->getKey()}");
+                Out::printLn("{$child->getTitle()}: {$child->getKey()}",TextColor::blue);
             }
         }
         if($this->hasParent()) {
-            Out::printLn("{$this->parentMenu->getTitle()}: {$this->parentMenu->getKey()}");
+            Out::printLn("{$this->parentMenu->getTitle()}: {$this->parentMenu->getKey()}",TextColor::green);
         }
     }
 
