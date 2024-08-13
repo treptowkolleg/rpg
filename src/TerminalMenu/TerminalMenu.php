@@ -3,12 +3,19 @@
 namespace Btinet\Rpg\TerminalMenu;
 
 use Btinet\Rpg\System\Out;
+use Closure;
+use JetBrains\PhpStorm\NoReturn;
 
-class TerminalMenu implements TerminalMenuInterface
+class TerminalMenu
 {
     private string $title;
 
     private string $key;
+
+    /**
+     * @var array<Closure>
+     */
+    private array $actions = [];
 
     private ?TerminalMenu $parentMenu = null;
 
@@ -37,17 +44,23 @@ class TerminalMenu implements TerminalMenuInterface
         $this->children = $children;
     }
 
-    public function doAction(array $options = []): void
+    public function addAction(Closure $action): void
+    {
+        $this->actions[] = $action;
+    }
+
+    #[NoReturn]
+    public function render(): void
     {
         Out::printHeading($this->title);
 
         foreach ($this->children as $child) {
-            if($child instanceof TerminalMenuInterface){
+            if($child instanceof TerminalMenu){
                 Out::printLn($child->getKey());
             }
         }
 
-        if($this->parentMenu) {
+        if($this->hasParent()) {
             Out::printLn($this->parentMenu->getKey());
         }
 
@@ -55,14 +68,18 @@ class TerminalMenu implements TerminalMenuInterface
             $input = readline("Frage: ");
 
             if($this->parentMenu != null && strtolower($input) == $this->parentMenu->getKey()) {
-                $this->parentMenu->doAction($options);
+                $this->parentMenu->render();
             }
 
-            if($this->children) {
+            if($this->hasChildren()) {
                 foreach ($this->children as $child) {
-                    if($child instanceof TerminalMenuInterface){
+                    if($child instanceof TerminalMenu){
                         if(strtolower($input) == $child->getKey()) {
-                            $child->doAction($options);
+                            if($child->hasChildren()) {
+                                $child->render();
+                            } else {
+                                $child->runActions();
+                            }
                         }
                     }
                 }
@@ -74,7 +91,6 @@ class TerminalMenu implements TerminalMenuInterface
            }
         }
     }
-
 
     public function getTitle(): string
     {
@@ -100,6 +116,23 @@ class TerminalMenu implements TerminalMenuInterface
     {
         $this->children[] = $menu;
         $menu->setParentMenu($this);
+    }
+
+    private function runActions(): void
+    {
+        foreach($this->actions as $action) {
+            call_user_func($action);
+        }
+    }
+
+    public function hasParent(): bool
+    {
+        return (bool) $this->parentMenu;
+    }
+
+    public function hasChildren(): bool
+    {
+        return !(count($this->children) == 0);
     }
 
 }

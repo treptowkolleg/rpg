@@ -111,6 +111,7 @@ abstract class Character implements BattleEntityInterface
                 ActionEngine::criticalHit($selfAP);
         }
         $entity->modifyHp($selfAP);
+        Out::printLn("$entity hat nun {$entity->getHp()}/{$entity->getHpMax()} HP!");
     }
 
     public function apply(Item $item, BattleEntityInterface $entity): void

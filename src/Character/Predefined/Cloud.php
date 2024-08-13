@@ -38,10 +38,6 @@ class Cloud extends Character
         $this->equipWeapon($this->getWeapon(0));
     }
 
-    public function attack(BattleEntityInterface $entity): void
-    {
-        // TODO: Implement attack() method.
-    }
 
     public function apply(Item $item, BattleEntityInterface $entity): void
     {
