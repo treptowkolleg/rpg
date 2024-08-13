@@ -132,6 +132,11 @@ class TerminalMenu
         $menu->setParentMenu($this);
     }
 
+    public function addChildren(TerminalMenu ...$items): void
+    {
+        $this->children = array_merge($this->children, $items);
+    }
+
     private function runActions(): void
     {
         foreach($this->actions as $action) {
