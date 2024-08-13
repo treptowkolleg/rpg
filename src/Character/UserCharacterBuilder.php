@@ -2,6 +2,7 @@
 
 namespace Btinet\Rpg\Character;
 
+use Btinet\Rpg\Gear\Sword;
 use Btinet\Rpg\Item\Potion;
 
 class UserCharacterBuilder
@@ -111,6 +112,11 @@ class UserCharacterBuilder
     public function create(): UserCharacter
     {
         return new UserCharacter($this->name, $this->avatar, $this->hp, $this->ap, $this->attackFactor, $this->dp, $this->defenseFactor, $this->potions);
+    }
+
+    public function addWepaon(Sword $param): UserCharacterBuilder
+    {
+        return $this;
     }
 
 }

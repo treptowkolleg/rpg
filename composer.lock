@@ -224,12 +224,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-tui/php-tui.git",
-                "reference": "8626e30491c6febeb33d558573dc75133126d5b4"
+                "reference": "a995eaaac381b42382ab0900d5df842757e13dd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-tui/php-tui/zipball/8626e30491c6febeb33d558573dc75133126d5b4",
-                "reference": "8626e30491c6febeb33d558573dc75133126d5b4",
+                "url": "https://api.github.com/repos/php-tui/php-tui/zipball/a995eaaac381b42382ab0900d5df842757e13dd4",
+                "reference": "a995eaaac381b42382ab0900d5df842757e13dd4",
                 "shasum": ""
             },
             "require": {
@@ -279,7 +279,7 @@
                 "issues": "https://github.com/php-tui/php-tui/issues",
                 "source": "https://github.com/php-tui/php-tui/tree/main"
             },
-            "time": "2023-12-30T14:40:58+00:00"
+            "time": "2024-07-15T10:06:58+00:00"
         },
         {
             "name": "php-tui/term",
@@ -534,7 +534,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "gabrielrcouto/php-gui": 20,
-        "php-tui/php-tui": 20
+        "php-tui/php-tui": 20,
+        "ignasbernotas/phkey": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

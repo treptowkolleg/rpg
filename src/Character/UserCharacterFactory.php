@@ -2,6 +2,7 @@
 
 namespace Btinet\Rpg\Character;
 
+use Btinet\Rpg\Gear\Sword;
 use Btinet\Rpg\Item\Potion;
 
 class UserCharacterFactory
@@ -17,6 +18,7 @@ class UserCharacterFactory
             ->setAttackFactor(1.5)
             ->setDp(53)
             ->setDefenseFactor(2)
+            ->addWepaon(new Sword())
             ->addPotion(new Potion())
             ->addPotion(new Potion())
             ->addPotion(new Potion())

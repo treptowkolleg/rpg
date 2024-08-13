@@ -12,6 +12,7 @@ use Btinet\Rpg\System\TextColor;
 class GameEngine
 {
 
+    public int $runde = 0;
     private array $player;
 
     public function __construct()
@@ -51,11 +52,17 @@ class GameEngine
 
     public function makeTurn(AbstractCharacter $character): bool
     {
+        $this->runde++;
+        echo "\e[39m";
+        echo "\n";
+        echo "Runde {$this->runde}\n\n";
        if(in_array($character,$this->player[PlayerPosition::left->name])) {
            $targetPosition = PlayerPosition::right;
        } else {
            $targetPosition = PlayerPosition::left;
        }
+
+       $character->makePoisonDamage();
 
 
         if($character instanceof UserCharacter) {
@@ -75,6 +82,29 @@ class GameEngine
 
                 case "warten":
                     echo "{$character} wartet.\n";
+                    echo "Ziele\n";
+                    echo "------------\n";
+                    for($i = 0; $i < count($this->player[$targetPosition->name]); $i++) {
+                        $targetPlayer = $this->player[$targetPosition->name][$i];
+                        echo "$i: $targetPlayer\n";
+                    }
+                    echo "============\n";
+                    echo "\n\n";
+
+                    while(true) {
+                        $targetIndex = readline("Gift auf: \n");
+                        $targetIndex = intval($targetIndex);
+                        if($targetIndex >= 0 and $targetIndex < count($this->player[$targetPosition->name])) {
+                            break;
+                        } else {
+                            echo "Gib nur die Nummer des Gegners ein!\n";
+                        }
+                    }
+
+                    echo shell_exec('clear');
+                    $target = $this->player[$targetPosition->name][$targetIndex];
+                    $target->setPoison(3);
+
                     break;
 
                 case "heilen":

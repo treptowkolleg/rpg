@@ -16,7 +16,10 @@ class FileEngine
     public static function loadGame()
     {
         try {
-            return unserialize(file_get_contents(save_dir. "dok.sav"));
+            if(file_exists(save_dir. "dok.sav")) {
+                return unserialize(file_get_contents(save_dir. "dok.sav"));
+            }
+            return null;
         } catch (Exception $e) {
             Out::printAlert("{$e->getMessage()}");
         }

@@ -135,6 +135,11 @@ abstract class Character implements BattleEntityInterface
         return $this->getLeveledStat($this->ap * ActionEngine::differ($this->attackMultiplication)) + $weaponAp;
     }
 
+    public function getMyAp(): ?int
+    {
+        return null;
+    }
+
     /**
      * @return int
      * @throws Exception

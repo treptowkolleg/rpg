@@ -2,6 +2,7 @@
 
 namespace Btinet\Rpg\Character\Predefined;
 
+use Btinet\Rpg\Battle\BattleEntityInterface;
 use Btinet\Rpg\Character\Character;
 use Btinet\Rpg\Character\Gear\BronzeBangle;
 use Btinet\Rpg\Character\Weapon\LeatherGlove;
@@ -34,4 +35,8 @@ class Tifa extends Character
         $this->equipWeapon($this->getWeapon(0));
     }
 
+    public function doWhat(BattleEntityInterface $character): void
+    {
+        // TODO: Implement doWhat() method.
+    }
 }

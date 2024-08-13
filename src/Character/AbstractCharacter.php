@@ -42,6 +42,7 @@ abstract class AbstractCharacter
      * @var float Defense Factor
      */
     private float $defenseFactor;
+    private int $hasPoison = 0;
 
 
     /**
@@ -206,6 +207,25 @@ abstract class AbstractCharacter
     public function setDefenseFactor(float $defenseFactor): void
     {
         $this->defenseFactor = $defenseFactor;
+    }
+
+    public function hasPoison(): bool
+    {
+        return $this->hasPoison;
+    }
+
+    public function makePoisonDamage()
+    {
+        if($this->hasPoison >= 1) {
+            $this->hp -= 50;
+            echo "Gift auf $this\n";
+            $this->hasPoison--;
+            echo "{$this->hasPoison} an Gift übrig.\n";
+        }
+    }
+
+    public function setPoison(int $counter) {
+        $this->hasPoison = $counter;
     }
 
 }

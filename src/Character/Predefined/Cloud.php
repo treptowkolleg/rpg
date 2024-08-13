@@ -48,6 +48,12 @@ class Cloud extends Character
         // TODO: Implement apply() method.
     }
 
+    public function getMyAp(): ?int
+    {
+        return $this->getAp();
+    }
+
+
     public function defend(): void
     {
         // TODO: Implement defend() method.
