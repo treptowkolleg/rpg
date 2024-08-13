@@ -49,23 +49,32 @@ class TerminalMenu
         $this->actions[] = $action;
     }
 
+    private function clearView(): void
+    {
+        echo shell_exec('clear');
+    }
+
+    private function renderMenu(bool $clearBefore = false): void
+    {
+        if ($clearBefore) self::clearView();
+        Out::printHeading($this->title);
+        foreach ($this->children as $child) {
+            if($child instanceof TerminalMenu){
+                Out::printLn("{$child->getTitle()}: {$child->getKey()}");
+            }
+        }
+        if($this->hasParent()) {
+            Out::printLn("{$this->parentMenu->getTitle()}: {$this->parentMenu->getKey()}");
+        }
+    }
+
     #[NoReturn]
     public function render(): void
     {
-        Out::printHeading($this->title);
-
-        foreach ($this->children as $child) {
-            if($child instanceof TerminalMenu){
-                Out::printLn($child->getKey());
-            }
-        }
-
-        if($this->hasParent()) {
-            Out::printLn($this->parentMenu->getKey());
-        }
+        self::renderMenu(true);
 
         while(true){
-            $input = readline("Frage: ");
+            $input = readline("Aktion: ");
 
             if($this->parentMenu != null && strtolower($input) == $this->parentMenu->getKey()) {
                 $this->parentMenu->render();
@@ -78,7 +87,10 @@ class TerminalMenu
                             if($child->hasChildren()) {
                                 $child->render();
                             } else {
+                                self::clearView();
                                 $child->runActions();
+                                Out::printLn("");
+                                self::renderMenu();
                             }
                         }
                     }
