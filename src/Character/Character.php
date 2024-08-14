@@ -121,7 +121,7 @@ abstract class Character implements BattleEntityInterface
 
     public function defend(): void
     {
-        // TODO: Implement defend() method.
+        Out::printLn("$this geht in Verteidigungshaltung.");
     }
 
     /**

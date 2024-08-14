@@ -73,6 +73,7 @@ class Out
         $whiteSpaceLine = '';
         for($i = 1; $i <= (strlen($text) + (2*$whitespace)+2); $i++) $horizontalLine .= $frameChar;
         for($i = 1; $i <= $whitespace; $i++) $whiteSpaceLine .= ' ';
+
         self::printLn($horizontalLine, $color, $background);
         self::printLn($frameChar.$whiteSpaceLine.$text.$whiteSpaceLine.$frameChar, $color, $background);
         self::printLn($horizontalLine, $color, $background);

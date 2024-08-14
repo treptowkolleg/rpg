@@ -2,6 +2,7 @@
 
 namespace Btinet\Rpg\TerminalMenu;
 
+use Btinet\Rpg\System\BackgroundColor;
 use Btinet\Rpg\System\Out;
 use Btinet\Rpg\System\TextColor;
 use Closure;
@@ -61,11 +62,11 @@ class TerminalMenu
         Out::printHeading($this->title, TextColor::blue);
         foreach ($this->children as $child) {
             if($child instanceof TerminalMenu){
-                Out::printLn("{$child->getTitle()}: {$child->getKey()}",TextColor::blue);
+                Out::printLn("{$child->getKey()}: {$child->getTitle()}",TextColor::blue);
             }
         }
         if($this->hasParent()) {
-            Out::printLn("{$this->parentMenu->getTitle()}: {$this->parentMenu->getKey()}");
+            Out::printLn("{$this->parentMenu->getKey()}: {$this->parentMenu->getTitle()}");
         }
     }
 
@@ -75,16 +76,18 @@ class TerminalMenu
         self::renderMenu(true);
 
         while(true){
-            $input = readline("Aktion: ");
+            $inputFound = false;
+            $input = strtolower(readline("Aktion: "));
 
-            if($this->parentMenu != null && strtolower($input) == $this->parentMenu->getKey()) {
+            if($this->parentMenu != null && $input == $this->parentMenu->getKey()) {
                 $this->parentMenu->render();
             }
 
             if($this->hasChildren()) {
                 foreach ($this->children as $child) {
                     if($child instanceof TerminalMenu){
-                        if(strtolower($input) == $child->getKey()) {
+                        if($input == $child->getKey()) {
+                            $inputFound = true;
                             if($child->hasChildren()) {
                                 $child->render();
                             } else {
@@ -97,9 +100,18 @@ class TerminalMenu
 
             }
 
-           if(strtolower($input) == 'exit') {
+           if(in_array($input,['exit','bye','quit'])) {
+               self::clearView();
+               Out::printAlert("Spiel wird beendet...", TextColor::blue, BackgroundColor::black);
+               sleep(2);
                self::clearView();
                exit(0);
+           }
+
+           if(!$inputFound) {
+               Out::printLn("Befehl >>$input<< ist nicht verfügbar!",TextColor::lightRed);
+               sleep(2);
+               self::renderMenu(true);
            }
         }
     }

@@ -14,19 +14,31 @@ $cloud = new Cloud();
 $tifa = new Tifa();
 
 
-$mainMenu = new TerminalMenu("Hauptmenü","main");
-$battleMenu = new TerminalMenu("Kampfmenü","kampf");
-$attackMenuItem = new TerminalMenu("Angriff","hit");
+$mainMenu = new TerminalMenu("Hauptmenü","a");
 
-// Methode implementieren und ausführen, wenn "hit" benutzt wird.
+
+$attackMenuItem = new TerminalMenu("Angriff","1");
+$defendMenuItem = new TerminalMenu("Verteidigen","2");
+$battleMenu = new TerminalMenu("Kampf","k");
+$battleMenu->addChildren($attackMenuItem, $defendMenuItem);
+
+$weaponEquipMenuItem = new TerminalMenu("Waffen","1");
+$gearEquipMenuItem = new TerminalMenu("Rüstung","2");
+$equipMenu = new TerminalMenu("Ausrüstung","e");
+$equipMenu->addChildren($weaponEquipMenuItem, $gearEquipMenuItem);
+
+// Methode implementieren und ausführen, wenn "Angriff" benutzt wird.
 $attackMenuItem->addAction(function() use($cloud,$tifa) {
     $cloud->attack($tifa);
     sleep(2);
 });
 
-// Untermenüs bzw. Aktionen zu Menüs hinzufügen.
-$mainMenu->addChild($battleMenu);
-$battleMenu->addChild($attackMenuItem);
+// Methode implementieren und ausführen, wenn "Verteidigung" benutzt wird.
+$defendMenuItem->addAction(function() use($cloud) {
+    $cloud->defend();
+    sleep(2);
+});
 
 // Hauptmenü ausführen
+$mainMenu->addChildren($battleMenu,$equipMenu);
 $mainMenu->render();
