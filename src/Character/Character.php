@@ -109,9 +109,10 @@ abstract class Character implements BattleEntityInterface
             ActionEngine::missedHit($selfAP,$this->getEquippedWeapon()->getAttackMultiplication());
             if($selfAP > 0)
                 ActionEngine::criticalHit($selfAP);
+            $entity->modifyHp($selfAP);
+            Out::printLn("$entity hat nun {$entity->getHp()}/{$entity->getHpMax()} HP!");
         }
-        $entity->modifyHp($selfAP);
-        Out::printLn("$entity hat nun {$entity->getHp()}/{$entity->getHpMax()} HP!");
+        sleep(1);
     }
 
     public function apply(Item $item, BattleEntityInterface $entity): void

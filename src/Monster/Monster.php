@@ -136,8 +136,12 @@ abstract class Monster implements BattleEntityInterface, MonsterAI
             ActionEngine::missedHit($selfAP,$this->getHitRate());
             if($selfAP > 0)
                 ActionEngine::criticalHit($selfAP);
+            Out::printLn("$this greift mit $selfAP AP an.");
+            $entity->modifyHp($selfAP);
+            Out::printLn("$entity hat nun {$entity->getHp()}/{$entity->getHpMax()} HP!");
+            sleep(1);
         }
-        $entity->modifyHp($selfAP);
+
     }
 
 }

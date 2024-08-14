@@ -8,7 +8,7 @@ use Exception;
 class FileEngine
 {
 
-    public static function saveGame($object)
+    public static function saveGame($object): void
     {
         file_put_contents(save_dir. "dok.sav", serialize(clone $object));
     }

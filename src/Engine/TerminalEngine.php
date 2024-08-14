@@ -17,12 +17,10 @@ use PhpTui\Tui\DisplayBuilder;
 use PhpTui\Tui\Extension\Core\CoreExtension;
 use PhpTui\Tui\Extension\ImageMagick\ImageMagickExtension;
 use PhpTui\Tui\Widget\Widget;
-use Serializable;
 use SplObserver;
-use SplSubject;
 use TypeError;
 
-class TerminalEngine implements Serializable
+class TerminalEngine
 {
 
     private Terminal $terminal;
@@ -32,7 +30,6 @@ class TerminalEngine implements Serializable
      * @var array<Character>
      */
     private array $characterList;
-
     private ?Character $currentCharacter = null;
 
     /**
@@ -58,6 +55,7 @@ class TerminalEngine implements Serializable
      * @var array
      */
     private array $observers = [];
+
     /**
      * @var Monster|mixed
      */
@@ -80,7 +78,7 @@ class TerminalEngine implements Serializable
         $this->observers["*"] = [];
 
         // Nicht unter Windows verfügbar (außer über WSL)
-        readline_callback_handler_install("", function() {});
+        //readline_callback_handler_install("", function() {});
     }
 
     public function attach(SplObserver $observer, string $event = "*"): void
@@ -193,7 +191,7 @@ class TerminalEngine implements Serializable
         return $this->monsterList;
     }
 
-    public function setCurrentMonster(int $selectedIndex)
+    public function setCurrentMonster(int $selectedIndex): void
     {
         $this->currentMonster = $this->getMonster($selectedIndex);
     }
@@ -208,25 +206,19 @@ class TerminalEngine implements Serializable
         return $this->monsterList[$index];
     }
 
-    /**
-     * @return string|null
-     */
-    public function serialize(): ?string
+    public function __serialize(): array
     {
-        return serialize([
+        return [
             $this->characterList,
             $this->currentCharacter,
             $this->gearList,
             $this->weaponList,
             $this->monsterList,
             $this->currentMonster,
-        ]);
+        ];
     }
 
-    /**
-     * @param string $data
-     */
-    public function unserialize($data)
+    public function __unserialize(array $data): void
     {
         $this->terminal = Terminal::new();
         $this->display = DisplayBuilder::default(PhpTermBackend::new($this->terminal))->build();
@@ -243,11 +235,9 @@ class TerminalEngine implements Serializable
                 $this->weaponList,
                 $this->monsterList,
                 $this->currentMonster,
-                ) = unserialize($data);
+                ) = $data;
         } catch (TypeError|Error $exception) {
             Out::printAlert($exception->getMessage());
         }
-
     }
-
 }
