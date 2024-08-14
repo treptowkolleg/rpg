@@ -88,10 +88,8 @@ class TerminalMenu
                             if($child->hasChildren()) {
                                 $child->render();
                             } else {
-                                self::clearView();
                                 $child->runActions();
-                                Out::printLn("");
-                                self::renderMenu();
+                                self::renderMenu(true);
                             }
                         }
                     }

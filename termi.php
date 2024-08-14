@@ -21,6 +21,7 @@ $attackMenuItem = new TerminalMenu("Angriff","hit");
 // Methode implementieren und ausführen, wenn "hit" benutzt wird.
 $attackMenuItem->addAction(function() use($cloud,$tifa) {
     $cloud->attack($tifa);
+    sleep(2);
 });
 
 // Untermenüs bzw. Aktionen zu Menüs hinzufügen.
