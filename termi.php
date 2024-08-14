@@ -10,6 +10,13 @@ const save_dir = __DIR__. DIRECTORY_SEPARATOR . "savegame" . DIRECTORY_SEPARATOR
 const log_dir = __DIR__. DIRECTORY_SEPARATOR . "log" . DIRECTORY_SEPARATOR;
 const asset_dir = __DIR__. DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR;
 
+/*
+ * Wir sollten hier besser eine Klasse bauen, die aktuelle Charaktere etc. speichert.
+ * So kann dann über das Menü ausgewählt werden, wer gerade gegen wen kämpfen soll,
+ * welche Items und Ausrüstung verfügbar ist und auch ein NPC-Chat wäre so umsetzbar.
+ *
+ * Zum Test genügt aber die untenstehende Notierung.
+ */
 $cloud = new Cloud();
 $tifa = new Tifa();
 
