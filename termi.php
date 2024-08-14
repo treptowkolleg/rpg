@@ -2,7 +2,9 @@
 
 use Btinet\Rpg\Character\Predefined\Cloud;
 use Btinet\Rpg\Character\Predefined\Tifa;
+use Btinet\Rpg\TerminalMenu\AbstractTerminalMenu;
 use Btinet\Rpg\TerminalMenu\TerminalMenu;
+use Btinet\Rpg\TerminalMenu\TerminalMenuItem;
 
 require "vendor/autoload.php";
 
@@ -24,13 +26,13 @@ $tifa = new Tifa();
 
 
 
-$attackMenuItem = new TerminalMenu("Angriff","1");
-$defendMenuItem = new TerminalMenu("Verteidigen","2");
+$attackMenuItem = new TerminalMenuItem("Angriff","1");
+$defendMenuItem = new TerminalMenuItem("Verteidigen","2");
 $battleMenu = new TerminalMenu("Kampf","k");
 $battleMenu->addChildren($attackMenuItem, $defendMenuItem);
 
-$weaponEquipMenuItem = new TerminalMenu("Waffen","1");
-$gearEquipMenuItem = new TerminalMenu("Rüstung","2");
+$weaponEquipMenuItem = new TerminalMenuItem("Waffen","1");
+$gearEquipMenuItem = new TerminalMenuItem("Rüstung","2");
 $equipMenu = new TerminalMenu("Ausrüstung","e");
 $equipMenu->addChildren($weaponEquipMenuItem, $gearEquipMenuItem);
 

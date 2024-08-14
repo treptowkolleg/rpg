@@ -5,66 +5,66 @@ namespace Btinet\Rpg\TerminalMenu;
 use Btinet\Rpg\System\BackgroundColor;
 use Btinet\Rpg\System\Out;
 use Btinet\Rpg\System\TextColor;
-use Closure;
 use JetBrains\PhpStorm\NoReturn;
 
-class TerminalMenu
+/**
+ * TerminalMenüs dürfen zusätzlich Unterelemente haben, die entweder Menüs oder Menüpunkte sind.
+ * Außerdem zeigen Menüs Menüpunkte und über- sowie untergeordnete Menüs und Menüpunkte an.
+ * Hier geschieht ebenfalls die Tastaturabfrage.
+ */
+class TerminalMenu extends AbstractTerminalMenu
 {
-    private string $title;
-
-    private string $key;
 
     /**
-     * @var array<Closure>
-     */
-    private array $actions = [];
-
-    private ?TerminalMenu $parentMenu = null;
-
-    /**
-     * @var array<TerminalMenu>
+     * @var array<AbstractTerminalMenu>
      */
     private array $children = [];
 
     /**
-     * @param string $title
-     * @param string $key
-     * @param TerminalMenu|null $parentMenu
-     * @param TerminalMenu[] $children
+     * @param AbstractTerminalMenu[] $children
      */
-    public function __construct
-    (
-        string $title,
-        string $key,
+    public function __construct(
+        string                $title,
+        string                $key,
         ?TerminalMenu $parentMenu = null,
-        TerminalMenu ...$children,
+        AbstractTerminalMenu ...$children,
     )
     {
-        $this->title = $title;
-        $this->key = $key;
-        $this->parentMenu = $parentMenu;
-        $this->children = $children;
+        parent::__construct($title, $key, $parentMenu);
+        $this->children = array_merge($this->children, $children);
+        foreach ($children as $child) {
+            $child->setParentMenu($this);
+        }
     }
 
-    public function addAction(Closure $action): void
+    /**
+     * Füge Kind-Elemente hinzu.
+     * @param AbstractTerminalMenu ...$items
+     * @return void
+     */
+    public function addChildren(AbstractTerminalMenu ...$items): void
     {
-        $this->actions[] = $action;
+        $this->children = array_merge($this->children, $items);
+        foreach ($items as $item) {
+            $item->setParentMenu($this);
+        }
     }
 
-    private function clearView(): void
+    public function hasChildren(): bool
     {
-        echo shell_exec('clear');
+        return !(count($this->children) == 0);
     }
 
-    private function renderMenu(bool $clearBefore = false): void
+    protected function renderMenu(bool $clearBefore = false): void
     {
         if ($clearBefore) self::clearView();
         Out::printHeading($this->title, TextColor::blue);
         foreach ($this->children as $child) {
-            if($child instanceof TerminalMenu){
+            if($child instanceof AbstractTerminalMenu){
                 Out::printLn("{$child->getKey()}: {$child->getTitle()}",TextColor::blue);
             }
         }
+
         if($this->hasParent()) {
             Out::printLn("{$this->parentMenu->getKey()}: {$this->parentMenu->getTitle()}");
         }
@@ -73,7 +73,7 @@ class TerminalMenu
     #[NoReturn]
     public function render(): void
     {
-        self::renderMenu(true);
+        $this->renderMenu(true);
 
         while(true){
             $inputFound = false;
@@ -85,86 +85,36 @@ class TerminalMenu
 
             if($this->hasChildren()) {
                 foreach ($this->children as $child) {
-                    if($child instanceof TerminalMenu){
+                    if($child instanceof TerminalMenu) {
                         if($input == $child->getKey()) {
                             $inputFound = true;
                             if($child->hasChildren()) {
                                 $child->render();
-                            } else {
-                                $child->runActions();
-                                self::renderMenu(true);
                             }
                         }
                     }
+                    if ($child instanceof TerminalMenuItem && $input == $child->getKey()) {
+                        $inputFound = true;
+                        $child->runActions();
+                        $this->renderMenu(true);
+                    }
                 }
-
             }
 
-           if(in_array($input,['exit','bye','quit'])) {
-               self::clearView();
-               Out::printAlert("Spiel wird beendet...", TextColor::blue, BackgroundColor::black);
-               sleep(2);
-               self::clearView();
-               exit(0);
-           }
+            if(in_array($input,['exit','bye','quit'])) {
+                $this->clearView();
+                Out::printAlert("Spiel wird beendet...", TextColor::blue, BackgroundColor::black);
+                sleep(2);
+                $this->clearView();
+                exit(0);
+            }
 
-           if(!$inputFound) {
-               Out::printLn("Befehl >>$input<< ist nicht verfügbar!",TextColor::lightRed);
-               sleep(2);
-               self::renderMenu(true);
-           }
+            if(!$inputFound) {
+                Out::printLn("Befehl >>$input<< ist nicht verfügbar!",TextColor::lightRed);
+                sleep(2);
+                $this->renderMenu(true);
+            }
         }
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    public function getKey(): string
-    {
-        return $this->key;
-    }
-
-    public function setParentMenu(?TerminalMenu $parentMenu): void
-    {
-        $this->parentMenu = $parentMenu;
-    }
-
-    public function getParentMenu(): ?TerminalMenu
-    {
-        return $this->parentMenu;
-    }
-
-    public function addChild(TerminalMenu $menu): void
-    {
-        $this->children[] = $menu;
-        $menu->setParentMenu($this);
-    }
-
-    public function addChildren(TerminalMenu ...$items): void
-    {
-        $this->children = array_merge($this->children, $items);
-        foreach ($items as $item) {
-            $item->setParentMenu($this);
-        }
-    }
-
-    private function runActions(): void
-    {
-        foreach($this->actions as $action) {
-            call_user_func($action);
-        }
-    }
-
-    public function hasParent(): bool
-    {
-        return (bool) $this->parentMenu;
-    }
-
-    public function hasChildren(): bool
-    {
-        return !(count($this->children) == 0);
     }
 
 }

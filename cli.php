@@ -9,7 +9,7 @@ use Btinet\Rpg\Engine\TerminalEngine;
 use Btinet\Rpg\System\BackgroundColor;
 use Btinet\Rpg\System\Out;
 use Btinet\Rpg\System\TextColor;
-use Btinet\Rpg\TerminalMenu\TerminalMenu;
+use Btinet\Rpg\TerminalMenu\AbstractTerminalMenu;
 use Btinet\Rpg\View\CharacterStatsView;
 
 require 'vendor/autoload.php';
