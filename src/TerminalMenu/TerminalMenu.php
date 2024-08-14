@@ -37,7 +37,7 @@ class TerminalMenu
         string $title,
         string $key,
         ?TerminalMenu $parentMenu = null,
-        array $children = [],
+        TerminalMenu ...$children,
     )
     {
         $this->title = $title;

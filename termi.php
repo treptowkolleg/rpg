@@ -21,7 +21,7 @@ $cloud = new Cloud();
 $tifa = new Tifa();
 
 
-$mainMenu = new TerminalMenu("Hauptmenü","a");
+
 
 
 $attackMenuItem = new TerminalMenu("Angriff","1");
@@ -47,5 +47,5 @@ $defendMenuItem->addAction(function() use($cloud) {
 });
 
 // Hauptmenü ausführen
-$mainMenu->addChildren($battleMenu,$equipMenu);
+$mainMenu = new TerminalMenu("Hauptmenü","a",null, $battleMenu, $equipMenu);
 $mainMenu->render();
