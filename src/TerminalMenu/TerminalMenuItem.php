@@ -14,7 +14,7 @@ class TerminalMenuItem extends AbstractTerminalMenu
     /**
      * @var array<Closure>
      */
-    protected array $actions = [];
+    private array $actions = [];
 
     public function __construct
     (

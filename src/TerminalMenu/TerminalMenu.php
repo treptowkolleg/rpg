@@ -55,7 +55,7 @@ class TerminalMenu extends AbstractTerminalMenu
         return !(count($this->children) == 0);
     }
 
-    protected function renderMenu(bool $clearBefore = false): void
+    private function renderMenu(bool $clearBefore = false): void
     {
         if ($clearBefore) self::clearView();
         Out::printHeading($this->title, TextColor::blue);
@@ -68,6 +68,14 @@ class TerminalMenu extends AbstractTerminalMenu
         if($this->hasParent()) {
             Out::printLn("{$this->parentMenu->getKey()}: {$this->parentMenu->getTitle()}");
         }
+    }
+
+    /**
+     * @return void
+     */
+    private function clearView(): void
+    {
+        echo shell_exec('clear');
     }
 
     #[NoReturn]

@@ -32,14 +32,6 @@ abstract class AbstractTerminalMenu
     }
 
     /**
-     * @return void
-     */
-    protected function clearView(): void
-    {
-        echo shell_exec('clear');
-    }
-
-    /**
      * @return string
      */
     public function getTitle(): string
