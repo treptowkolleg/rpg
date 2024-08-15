@@ -2,6 +2,7 @@
 
 use Btinet\Rpg\Config\Config;
 use Btinet\Rpg\Engine\SimpleTerminalEngine;
+use Btinet\Rpg\System\Out;
 use Btinet\Rpg\TerminalMenu\TerminalMenu;
 use Btinet\Rpg\TerminalMenu\TerminalMenuItem;
 
@@ -30,6 +31,23 @@ $defendMenuItem = new TerminalMenuItem("Verteidigen","2");
 $battleMenu = new TerminalMenu("Kampf","k");
 $battleMenu->addChildren($attackMenuItem, $defendMenuItem);
 
+// Monster-Auswahlmenü
+$enemySelectMenu = new TerminalMenu("Gegnerdatenbank","g");
+
+// Alle verfügbaren Monster zur Auswahl hinzufügen und Aktion zur Selektion implementieren.
+foreach ($app->getMonsterList() as $key => $monster) {
+    $monsterItem = new TerminalMenuItem("{$monster->getLabel()}","$key");
+    $monsterItem->addAction(function() use($app, $key, $monster) {
+        $app->setCurrentMonster($key);
+        Out::print("{$monster->getLabel()}");
+        Out::printLn(" wurde ausgewählt.");
+        sleep(2);
+    });
+    $enemySelectMenu->addChildren($monsterItem);
+}
+
+
+
 $weaponEquipMenuItem = new TerminalMenuItem("Waffen","1");
 $gearEquipMenuItem = new TerminalMenuItem("Rüstung","2");
 $equipMenu = new TerminalMenu("Ausrüstung","e");
@@ -50,5 +68,13 @@ $defendMenuItem->addAction(function() use($app) {
 });
 
 // Hauptmenü ausführen
-$mainMenu = new TerminalMenu("Hauptmenü","a",null, $battleMenu, $equipMenu);
+$mainMenu = new TerminalMenu(
+    "Hauptmenü",
+    "a",
+    null,
+    $battleMenu,
+    $equipMenu,
+    $enemySelectMenu
+);
+
 $mainMenu->render();
