@@ -37,6 +37,7 @@ class ActionEngine
     public static function criticalHit(int &$ap): void
     {
         if(rand(0,100) >= 97) {
+            Out::printLn("");
             Out::printAlert("Kritischer Treffer");
             $ap = $ap * 2;
         }
@@ -45,6 +46,7 @@ class ActionEngine
     public static function missedHit(int &$ap, float $tq): void
     {
         if(rand(0,100) >= ($tq*100)) {
+            Out::printLn("");
             Out::printAlert("Daneben");
             $ap = 0;
         }

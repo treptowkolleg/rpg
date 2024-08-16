@@ -17,6 +17,7 @@ use Btinet\Rpg\Engine\ActionEngine;
 use Btinet\Rpg\Item\Item;
 use Btinet\Rpg\Monster\Monster;
 use Btinet\Rpg\System\Out;
+use Btinet\Rpg\System\TextColor;
 use Exception;
 
 abstract class Character implements BattleEntityInterface
@@ -51,6 +52,10 @@ abstract class Character implements BattleEntityInterface
      * @var array<Weapon>
      */
     private array $weaponList = [];
+
+    private int $counter = 0;
+    private int $dpBooster = 2;
+    private int $lastDp = 0;
 
     public function __construct
     (
@@ -102,6 +107,10 @@ abstract class Character implements BattleEntityInterface
 
     public function attack(Character|Monster $entity): void
     {
+        if($this->counter == 1) {
+            $this->setDp($this->lastDp);
+            $this->counter = 0;
+        }
         $selfAP = $this->getAp() - $entity->getDp();
         if($selfAP <= 0) {
             Out::printLn("Geblockt");
@@ -109,6 +118,7 @@ abstract class Character implements BattleEntityInterface
             ActionEngine::missedHit($selfAP,$this->getEquippedWeapon()->getAttackMultiplication());
             if($selfAP > 0)
                 ActionEngine::criticalHit($selfAP);
+            Out::printLn("$this greift mit $selfAP AP an.");
             $entity->modifyHp($selfAP);
             Out::printLn("$entity hat nun {$entity->getHp()}/{$entity->getHpMax()} HP!");
         }
@@ -122,7 +132,18 @@ abstract class Character implements BattleEntityInterface
 
     public function defend(): void
     {
+        if($this->counter == 0) {
+            $this->lastDp = $this->dp;
+            $newDp = $this->lastDp * $this->dpBooster;
+            $this->setDp($newDp);
+            $this->counter = 1;
+        }
         Out::printLn("$this geht in Verteidigungshaltung.");
+        Out::print("DP von $this steigen von ");
+        Out::print("{$this->lastDp}", TextColor::yellow);
+        Out::print(" auf ");
+        Out::printLn("{$this->dp}", TextColor::yellow);
+        sleep(1);
     }
 
     /**
@@ -297,6 +318,11 @@ abstract class Character implements BattleEntityInterface
     public function getEquippedWeapon(): ?Weapon
     {
         return $this->currentWeapon;
+    }
+
+    public function restoreHp(): void
+    {
+        $this->setHp($this->getHpMax());
     }
 
 }

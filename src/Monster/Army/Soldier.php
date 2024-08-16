@@ -2,15 +2,14 @@
 
 namespace Btinet\Rpg\Monster\Army;
 
+use Btinet\Rpg\Ability\Grenade;
 use Btinet\Rpg\Ability\MachineGun;
-use Btinet\Rpg\Ability\Tonfa;
 use Btinet\Rpg\Character\Character;
 use Btinet\Rpg\Item\Item;
 use Btinet\Rpg\Monster\Monster;
 use Btinet\Rpg\System\Out;
-use Btinet\Rpg\System\TextColor;
 
-class MP extends Monster
+class Soldier extends Monster
 {
 
     public function apply(Item $item, Character|Monster $entity): void
@@ -23,34 +22,28 @@ class MP extends Monster
         // TODO: Implement defend() method.
     }
 
-    /**
-     * AI einrichten
-     */
     public function setup(): void
     {
-        $this->setAbilities([
-            new MachineGun(),
-            new Tonfa()
-        ]);
+        $this->abilities = [
+          new MachineGun(),
+          new Grenade()
+        ];
     }
 
-    /**
-     * Normaler Angriff
-     */
     public function main(Character|Monster $target): void
     {
-        $int = rand(0,count($this->abilities)-1);
-        $this->setCurrentAttack($this->getAbility($int));
-        Out::print("Angriff: ",TextColor::yellow);
-        Out::print("{$this->getCurrentAttack()} ",TextColor::cyan);
+        $this->setCurrentAttack($this->abilities[0]);
+        Out::printLn("$this greift mit {$this->getCurrentAttack()} an!");
         $this->attack($target);
     }
 
-    /**
-     * Gegenangriff
-     */
     public function counter(Character|Monster $target): void
     {
-
+        if($this->getHp() < $this->getHpMax()/2) {
+            $this->setCurrentAttack($this->abilities[1]);
+            Out::printLn("$this macht Gegenangriff mit {$this->getCurrentAttack()} an!");
+            $this->attack($target);
+        }
     }
+
 }

@@ -80,6 +80,7 @@ class Config implements ConfigInterface
             MonsterFactory::Captain(),
             MonsterFactory::AttackSquad(),
             MonsterFactory::Marine(),
+            MonsterFactory::Soldier(),
         ];
     }
 

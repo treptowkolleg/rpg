@@ -7,7 +7,7 @@ class MachineGun extends Ability
 
     public function __construct()
     {
-        $this->setAp(6);
+        $this->setAp(9);
         parent::__construct("Maschinengewehr");
     }
 

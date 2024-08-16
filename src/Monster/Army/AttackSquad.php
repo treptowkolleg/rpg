@@ -35,7 +35,6 @@ class AttackSquad extends Monster
     public function main(Character|Monster $target): void
     {
         $randomInt = rand(0,count($this->abilities)-1);
-
         $this->setCurrentAttack($this->abilities[$randomInt]);
         Out::print("Angriff: ",TextColor::yellow);
         Out::print("{$this->getCurrentAttack()} ",TextColor::cyan);

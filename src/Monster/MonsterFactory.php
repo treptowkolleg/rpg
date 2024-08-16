@@ -9,6 +9,7 @@ use Btinet\Rpg\Monster\Army\Marine;
 use Btinet\Rpg\Monster\Army\MP;
 use Btinet\Rpg\Monster\Army\RocketLauncher;
 use Btinet\Rpg\Monster\Army\RouletteCannon;
+use Btinet\Rpg\Monster\Army\Soldier;
 
 abstract class MonsterFactory
 {
@@ -66,8 +67,16 @@ abstract class MonsterFactory
         return $factory
             ->setName("Marine")
             ->setExp(500)
-            ->setDefeated(true)
             ->build(Marine::class);
+    }
+
+    public static function Soldier()
+    {
+        $factory = new MonsterBuilder();
+        return $factory
+            ->setName("Soldat")
+            ->setExp(250)
+            ->build(Soldier::class);
     }
 
 }

@@ -2,7 +2,6 @@
 
 namespace Btinet\Rpg\Monster;
 
-use Btinet\Rpg\Battle\BattleEntityInterface;
 use Btinet\Rpg\Character\Character;
 
 interface MonsterAI

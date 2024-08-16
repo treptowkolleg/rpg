@@ -144,4 +144,9 @@ abstract class Monster implements BattleEntityInterface, MonsterAI
 
     }
 
+    public function restoreHp(): void
+    {
+        $this->setHp($this->getHpMax());
+    }
+
 }
