@@ -18,7 +18,7 @@ class TerminalMenuItem extends AbstractTerminalMenu
 
     public function __construct
     (
-        string                $title,
+        String                $title,
         string                $key,
         ?AbstractTerminalMenu $parentMenu = null,
     )
