@@ -61,6 +61,15 @@ abstract class Monster implements BattleEntityInterface, MonsterAI
         $this->setup();
     }
 
+    public function __toString(): string
+    {
+        if($this->isDefeated()) {
+            return "$this->label (besiegt)";
+        } else {
+            return $this->label;
+        }
+    }
+
     /**
      * @return int
      */
