@@ -23,7 +23,6 @@ class BattleMenuView extends AbstractMenuView
         $this->menu->addChildren($this->attackItem, $this->defendItem);
 
         parent::__construct($engine);
-        $this->setup();
     }
 
     public function setup(): void
