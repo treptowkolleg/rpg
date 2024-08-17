@@ -12,8 +12,9 @@ abstract class AbstractMenuView implements MenuViewInterface
 
     protected SimpleTerminalEngine $engine;
 
-    public function __construct(SimpleTerminalEngine $engine)
+    public function __construct(string $title, string $key, SimpleTerminalEngine $engine)
     {
+        $this->menu = new TerminalMenu($title,$key);
         $this->engine = $engine;
         $this->setup();
     }

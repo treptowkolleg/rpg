@@ -2,35 +2,20 @@
 
 namespace Btinet\Rpg\TerminalMenu\View;
 
-use Btinet\Rpg\Engine\SimpleTerminalEngine;
 use Btinet\Rpg\System\Out;
-use Btinet\Rpg\TerminalMenu\TerminalMenu;
 use Btinet\Rpg\TerminalMenu\TerminalMenuItem;
 
 class BattleMenuView extends AbstractMenuView
 {
 
-    private TerminalMenuItem $attackItem;
-    private TerminalMenuItem $defendItem;
-
-    public function __construct(SimpleTerminalEngine $engine)
-    {
-
-        $this->attackItem = new TerminalMenuItem("Angriff","1");
-        $this->defendItem = new TerminalMenuItem("Verteidigen","2");
-
-        $this->menu = new TerminalMenu("Kampf","k");
-        $this->menu->addChildren($this->attackItem, $this->defendItem);
-
-        parent::__construct($engine);
-    }
 
     public function setup(): void
     {
         $engine = $this->getEngine();
         $menu = $this->getMenu();
 
-        $this->attackItem->addAction(function() use($engine, $menu) {
+        $attackItem = new TerminalMenuItem("Angriff","1");
+        $attackItem->addAction(function() use($engine, $menu) {
             $engine->getCurrentCharacter()->attack($engine->getCurrentMonster());
             if($engine->getCurrentMonster()->getHp() <= 0) {
                 Out::printAlert("{$engine->getCurrentMonster()} wurde besiegt...");
@@ -44,12 +29,14 @@ class BattleMenuView extends AbstractMenuView
             $engine->getCurrentMonster()->main($engine->getCurrentCharacter());
         });
 
-        $this->defendItem->addAction(function() use($engine) {
+        $defendItem = new TerminalMenuItem("Verteidigen","2");
+        $defendItem->addAction(function() use($engine) {
             $engine->getCurrentCharacter()->defend();
             $engine->getCurrentMonster()->main($engine->getCurrentCharacter());
             sleep(2);
         });
 
+        $this->menu->addChildren($attackItem, $defendItem);
     }
 
 }

@@ -2,20 +2,11 @@
 
 namespace Btinet\Rpg\TerminalMenu\View;
 
-use Btinet\Rpg\Engine\SimpleTerminalEngine;
 use Btinet\Rpg\System\Out;
-use Btinet\Rpg\TerminalMenu\TerminalMenu;
 use Btinet\Rpg\TerminalMenu\TerminalMenuItem;
 
 class EnemySelectMenuView extends AbstractMenuView
 {
-
-    public function __construct(SimpleTerminalEngine $engine)
-    {
-        $this->menu = new TerminalMenu("Gegnerdatenbank","g");
-
-        parent::__construct($engine);
-    }
 
     public function setup(): void
     {

@@ -21,9 +21,9 @@ $app->setCurrentCharacter(0);
 $app->setCurrentMonster(0);
 
 // Eine View enthält die komplette Konfiguration einer Ansicht. Hier zum Beispiel das Kampfmenü.
-$battleView = new BattleMenuView($app);
-$equipView = new EquipMenuView($app);
-$enemySelectView = new EnemySelectMenuView($app);
+$battleView = new BattleMenuView("Kampf", "k", $app);
+$equipView = new EquipMenuView("Ausrüstung", "e", $app);
+$enemySelectView = new EnemySelectMenuView("Gegnerdatenbank", "g", $app);
 
 // Hauptmenü ausführen
 $mainMenu = new TerminalMenu(
