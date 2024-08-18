@@ -2,11 +2,6 @@
 
 use Btinet\Rpg\Config\Config;
 use Btinet\Rpg\Engine\SimpleTerminalEngine;
-use Btinet\Rpg\TerminalMenu\TerminalMenu;
-use Btinet\Rpg\TerminalMenu\View\BattleMenuView;
-use Btinet\Rpg\TerminalMenu\View\CharacterSelectMenuView;
-use Btinet\Rpg\TerminalMenu\View\EnemySelectMenuView;
-use Btinet\Rpg\TerminalMenu\View\EquipMenuView;
 
 require "vendor/autoload.php";
 
@@ -17,25 +12,8 @@ const asset_dir = __DIR__. DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR;
 /*
  * Engine zur Verwaltung aller Entitäten
  */
-$app = new SimpleTerminalEngine(Config::new());
+$app = new SimpleTerminalEngine(Config::new(), "Dungeons under the Kolleg", "m");
 $app->setCurrentCharacter(0);
 $app->setCurrentMonster(0);
 
-// Eine View enthält die komplette Konfiguration einer Ansicht. Hier zum Beispiel das Kampfmenü.
-$battleView = new BattleMenuView("Kampf", "k", $app);
-$equipView = new EquipMenuView("Ausrüstung", "e", $app);
-$enemySelectView = new EnemySelectMenuView("Gegnerdatenbank", "g", $app);
-$characterSelectView = new CharacterSelectMenuView("Kampfmitglieder","p", $app);
-
-// Hauptmenü ausführen
-$mainMenu = new TerminalMenu(
-    "Hauptmenü",
-    "a",
-    null,
-    $characterSelectView->getMenu(),
-    $battleView->getMenu(),
-    $equipView->getMenu(),
-    $enemySelectView->getMenu()
-);
-
-$mainMenu->render();
+$app->start();
