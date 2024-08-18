@@ -8,7 +8,10 @@ use Btinet\Rpg\Character\Weapon\Weapon;
 use Btinet\Rpg\Config\ConfigInterface;
 use Btinet\Rpg\Monster\Monster;
 use Btinet\Rpg\System\Out;
+use Btinet\Rpg\TerminalMenu\TerminalMenu;
+use Btinet\Rpg\TerminalMenu\View\AbstractMenuView;
 use Error;
+use JetBrains\PhpStorm\NoReturn;
 use TypeError;
 
 class SimpleTerminalEngine
@@ -44,12 +47,24 @@ class SimpleTerminalEngine
      */
     private ?Monster $currentMonster = null;
 
-    public function __construct(ConfigInterface $config)
+    private TerminalMenu $mainMenu;
+
+    public function __construct(ConfigInterface $config, string $title, string $key)
     {
         $this->characterList = $config::characterLibrary();
         $this->weaponList = $config::weaponLibrary();
         $this->gearList = $config::gearLibrary();
         $this->monsterList = $config::monsterLibrary();
+
+        $this->mainMenu = new TerminalMenu($title, $key);
+
+        foreach ($config::menuViewLibrary() as $menuSet)
+        {
+            if(class_exists($class = $menuSet[0])) {
+                $subMenu = new $class($menuSet[1], $menuSet[2], $this);
+                $this->mainMenu->addChildren($subMenu->getMenu());
+            }
+        }
     }
 
     /**
@@ -160,6 +175,17 @@ class SimpleTerminalEngine
     private function getMonster($index)
     {
         return $this->monsterList[$index];
+    }
+
+    public function getMainMenu(): TerminalMenu
+    {
+        return $this->mainMenu;
+    }
+
+    #[NoReturn]
+    public function start(): void
+    {
+        $this->mainMenu->render();
     }
 
 }
