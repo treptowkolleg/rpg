@@ -35,5 +35,7 @@ interface ConfigInterface
      */
     public static function monsterLibrary(): array;
 
+    public static function menuViewLibrary(): array;
+
     public static function new(): self;
 }

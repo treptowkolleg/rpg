@@ -19,6 +19,10 @@ use Btinet\Rpg\Item\Potion;
 use Btinet\Rpg\Monster\Army\AttackSquad;
 use Btinet\Rpg\Monster\Monster;
 use Btinet\Rpg\Monster\MonsterFactory;
+use Btinet\Rpg\TerminalMenu\View\BattleMenuView;
+use Btinet\Rpg\TerminalMenu\View\CharacterSelectMenuView;
+use Btinet\Rpg\TerminalMenu\View\EnemySelectMenuView;
+use Btinet\Rpg\TerminalMenu\View\EquipMenuView;
 
 class Config implements ConfigInterface
 {
@@ -81,6 +85,16 @@ class Config implements ConfigInterface
             MonsterFactory::AttackSquad(),
             MonsterFactory::Marine(),
             MonsterFactory::Soldier(),
+        ];
+    }
+
+    public static function menuViewLibrary(): array
+    {
+        return [
+          [CharacterSelectMenuView::class, "Kampfmitglieder", "p"],
+          [EquipMenuView::class, "Ausrüstung", "e"],
+          [EnemySelectMenuView::class, "Gegnerdatenbank", "g"],
+          [BattleMenuView::class, "Kampf", "b"],
         ];
     }
 
