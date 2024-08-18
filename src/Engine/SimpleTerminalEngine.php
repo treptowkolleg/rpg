@@ -9,7 +9,6 @@ use Btinet\Rpg\Config\ConfigInterface;
 use Btinet\Rpg\Monster\Monster;
 use Btinet\Rpg\System\Out;
 use Btinet\Rpg\TerminalMenu\TerminalMenu;
-use Btinet\Rpg\TerminalMenu\View\AbstractMenuView;
 use Error;
 use JetBrains\PhpStorm\NoReturn;
 use TypeError;
