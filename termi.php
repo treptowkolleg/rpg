@@ -4,6 +4,7 @@ use Btinet\Rpg\Config\Config;
 use Btinet\Rpg\Engine\SimpleTerminalEngine;
 use Btinet\Rpg\TerminalMenu\TerminalMenu;
 use Btinet\Rpg\TerminalMenu\View\BattleMenuView;
+use Btinet\Rpg\TerminalMenu\View\CharacterSelectMenuView;
 use Btinet\Rpg\TerminalMenu\View\EnemySelectMenuView;
 use Btinet\Rpg\TerminalMenu\View\EquipMenuView;
 
@@ -24,12 +25,14 @@ $app->setCurrentMonster(0);
 $battleView = new BattleMenuView("Kampf", "k", $app);
 $equipView = new EquipMenuView("Ausrüstung", "e", $app);
 $enemySelectView = new EnemySelectMenuView("Gegnerdatenbank", "g", $app);
+$characterSelectView = new CharacterSelectMenuView("Kampfmitglieder","p", $app);
 
 // Hauptmenü ausführen
 $mainMenu = new TerminalMenu(
     "Hauptmenü",
     "a",
     null,
+    $characterSelectView->getMenu(),
     $battleView->getMenu(),
     $equipView->getMenu(),
     $enemySelectView->getMenu()
