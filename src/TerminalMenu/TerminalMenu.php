@@ -50,6 +50,14 @@ class TerminalMenu extends AbstractTerminalMenu
         }
     }
 
+    /**
+     * @return array<AbstractTerminalMenu>
+     */
+    public function getChildren(): array
+    {
+        return $this->children;
+    }
+
     public function hasChildren(): bool
     {
         return !(count($this->children) == 0);

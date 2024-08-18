@@ -12,7 +12,7 @@ const asset_dir = __DIR__. DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR;
 /*
  * Engine zur Verwaltung aller Entitäten
  */
-$app = new SimpleTerminalEngine(Config::new(), "Dungeons under the Kolleg", "m");
+$app = new SimpleTerminalEngine(Config::new(), "Hauptmenü", "m");
 $app->setCurrentCharacter(0);
 $app->setCurrentMonster(0);
 

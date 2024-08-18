@@ -3,6 +3,7 @@
 namespace Btinet\Rpg\TerminalMenu\View;
 
 use Btinet\Rpg\System\Out;
+use Btinet\Rpg\TerminalMenu\AbstractTerminalMenu;
 use Btinet\Rpg\TerminalMenu\TerminalMenuItem;
 
 class BattleMenuView extends AbstractMenuView
@@ -21,7 +22,16 @@ class BattleMenuView extends AbstractMenuView
                 Out::printAlert("{$engine->getCurrentMonster()} wurde besiegt...");
                 $engine->getCurrentCharacter()->restoreHp();
                 $engine->getCurrentMonster()->restoreHp();
-                $engine->getCurrentMonster()->setDefeated(true);
+
+                if(!$engine->getCurrentMonster()->isDefeated()) {
+                    foreach ($this->getEngine()->getSubMenu("g")->getChildren() as $item) {
+                        if($item->getTitle() == $engine->getCurrentMonster()) {
+                            $engine->getCurrentMonster()->setDefeated(true);
+                            $item->setTitle($engine->getCurrentMonster());
+                            break;
+                        }
+                    }
+                }
                 sleep(2);
                 $menu->getParentMenu()->render();
             }

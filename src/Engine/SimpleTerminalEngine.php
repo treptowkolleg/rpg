@@ -8,7 +8,10 @@ use Btinet\Rpg\Character\Weapon\Weapon;
 use Btinet\Rpg\Config\ConfigInterface;
 use Btinet\Rpg\Monster\Monster;
 use Btinet\Rpg\System\Out;
+use Btinet\Rpg\System\TextColor;
 use Btinet\Rpg\TerminalMenu\TerminalMenu;
+use Btinet\Rpg\TerminalMenu\TerminalMenuItem;
+use Btinet\Rpg\TerminalMenu\TextBlock;
 use Error;
 use JetBrains\PhpStorm\NoReturn;
 use TypeError;
@@ -48,6 +51,11 @@ class SimpleTerminalEngine
 
     private TerminalMenu $mainMenu;
 
+    /**
+     * @var array<TerminalMenu>
+     */
+    private array $subMenus = [];
+
     public function __construct(ConfigInterface $config, string $title, string $key)
     {
         $this->characterList = $config::characterLibrary();
@@ -61,6 +69,7 @@ class SimpleTerminalEngine
         {
             if(class_exists($class = $menuSet[0])) {
                 $subMenu = new $class($menuSet[1], $menuSet[2], $this);
+                $this->subMenus[$menuSet[2]] = $subMenu->getMenu();
                 $this->mainMenu->addChildren($subMenu->getMenu());
             }
         }
@@ -181,9 +190,18 @@ class SimpleTerminalEngine
         return $this->mainMenu;
     }
 
+    public function getSubMenu(string $key): ?TerminalMenu
+    {
+        if(array_key_exists($key, $this->subMenus)) {
+            return $this->subMenus[$key];
+        }
+        return null;
+    }
+
     #[NoReturn]
     public function start(): void
     {
+        TextBlock::intro();
         $this->mainMenu->render();
     }
 

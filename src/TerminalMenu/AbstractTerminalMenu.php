@@ -40,6 +40,14 @@ abstract class AbstractTerminalMenu
     }
 
     /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
      * @return string
      */
     public function getKey(): string
