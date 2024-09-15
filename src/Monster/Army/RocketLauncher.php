@@ -2,6 +2,7 @@
 
 namespace Btinet\Rpg\Monster\Army;
 
+use Btinet\Rpg\Battle\BattleEntityInterface;
 use Btinet\Rpg\Character\Character;
 use Btinet\Rpg\Item\Item;
 use Btinet\Rpg\Monster\Monster;
@@ -9,7 +10,7 @@ use Btinet\Rpg\Monster\Monster;
 class RocketLauncher extends Monster
 {
 
-    public function apply(Item $item, Character|Monster $entity): void
+    public function apply(Item $item, BattleEntityInterface $entity): void
     {
         // TODO: Implement apply() method.
     }
@@ -32,7 +33,7 @@ class RocketLauncher extends Monster
     /**
      * @inheritDoc
      */
-    public function main(Character|Monster $target): void
+    public function main(BattleEntityInterface $target): void
     {
         // TODO: Implement main() method.
     }
@@ -40,7 +41,7 @@ class RocketLauncher extends Monster
     /**
      * @inheritDoc
      */
-    public function counter(Character|Monster $target): void
+    public function counter(BattleEntityInterface $target): void
     {
         // TODO: Implement counter() method.
     }

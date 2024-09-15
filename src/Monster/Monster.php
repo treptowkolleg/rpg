@@ -136,7 +136,7 @@ abstract class Monster implements BattleEntityInterface, MonsterAI
         $this->defeated = $defeated;
     }
 
-    public function attack(Character|Monster $entity): void
+    public function attack(BattleEntityInterface $entity): void
     {
         $selfAP = $this->getAp() - $entity->getDp();
         if($selfAP <= 0) {

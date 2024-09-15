@@ -105,7 +105,7 @@ abstract class Character implements BattleEntityInterface
         }
     }
 
-    public function attack(Character|Monster $entity): void
+    public function attack(BattleEntityInterface $entity): void
     {
         if($this->counter == 1) {
             $this->setDp($this->lastDp);

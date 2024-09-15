@@ -23,7 +23,7 @@ class TextBlock
         Out::printLn("");
         Out::printLn("Versuche, alle Gegner zu besiegen, um das Spiel durchzuspielen.", TextColor::lightGreen);
         Out::printLn("Du kannst bereits besiegte Gegner erneut bekämpfen, um Erfahrungspunkte zu sammeln.", TextColor::lightGreen);
-        Out::printLn("Nur so wird es dir gelingen, auch die schwersten Gegner besiegen zu können.", TextColor::lightGreen);
+        Out::printLn("Nur so wird es dir gelingen, auch die schwersten Gegner zu besiegen.", TextColor::lightGreen);
         Out::printLn("Solltest du scheitern, werden dir allerdings auch Erfahrungspunkte abgezogen.", TextColor::lightGreen);
         Out::printLn("Wähle deine Gegner also weise.", TextColor::lightGreen);
         Out::printLn("");

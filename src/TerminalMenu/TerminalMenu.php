@@ -19,6 +19,11 @@ class TerminalMenu extends AbstractTerminalMenu
      * @var array<AbstractTerminalMenu>
      */
     private array $children = [];
+    private ?string $description = null;
+    /**
+     * @var false
+     */
+    private bool $intro = true;
 
     /**
      * @param AbstractTerminalMenu[] $children
@@ -66,6 +71,12 @@ class TerminalMenu extends AbstractTerminalMenu
     private function renderMenu(bool $clearBefore = false): void
     {
         if ($clearBefore) self::clearView();
+        if($this->intro && $text = $this->description) {
+            Out::print($text);
+            $this->intro = false;
+        }
+
+
         Out::printHeading($this->title, TextColor::blue);
         foreach ($this->children as $child) {
             if($child instanceof AbstractTerminalMenu){
@@ -96,6 +107,7 @@ class TerminalMenu extends AbstractTerminalMenu
             $input = strtolower(readline("Aktion: "));
 
             if($this->parentMenu != null && $input == $this->parentMenu->getKey()) {
+                $this->intro = true;
                 $this->parentMenu->render();
             }
 
@@ -131,6 +143,11 @@ class TerminalMenu extends AbstractTerminalMenu
                 $this->renderMenu(true);
             }
         }
+    }
+
+    public function setDescription(?string $text): void
+    {
+        $this->description = $text;
     }
 
 }

@@ -2,7 +2,7 @@
 
 namespace Btinet\Rpg\Monster;
 
-use Btinet\Rpg\Character\Character;
+use Btinet\Rpg\Battle\BattleEntityInterface;
 
 interface MonsterAI
 {
@@ -15,11 +15,11 @@ interface MonsterAI
     /**
      * Normaler Angriff
      */
-    public function main(Character|Monster $target): void;
+    public function main(BattleEntityInterface $target): void;
 
     /**
      * Gegenangriff
      */
-    public function counter(Character|Monster $target): void;
+    public function counter(BattleEntityInterface $target): void;
 
 }

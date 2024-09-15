@@ -4,6 +4,7 @@ namespace Btinet\Rpg\Monster\Army;
 
 use Btinet\Rpg\Ability\Grenade;
 use Btinet\Rpg\Ability\MachineGun;
+use Btinet\Rpg\Battle\BattleEntityInterface;
 use Btinet\Rpg\Character\Character;
 use Btinet\Rpg\Item\Item;
 use Btinet\Rpg\Monster\Monster;
@@ -12,7 +13,7 @@ use Btinet\Rpg\System\Out;
 class Soldier extends Monster
 {
 
-    public function apply(Item $item, Character|Monster $entity): void
+    public function apply(Item $item, BattleEntityInterface $entity): void
     {
         // TODO: Implement apply() method.
     }
@@ -30,14 +31,14 @@ class Soldier extends Monster
         ];
     }
 
-    public function main(Character|Monster $target): void
+    public function main(BattleEntityInterface$target): void
     {
         $this->setCurrentAttack($this->abilities[0]);
         Out::printLn("$this greift mit {$this->getCurrentAttack()} an!");
         $this->attack($target);
     }
 
-    public function counter(Character|Monster $target): void
+    public function counter(BattleEntityInterface $target): void
     {
         if($this->getHp() < $this->getHpMax()/2) {
             $this->setCurrentAttack($this->abilities[1]);

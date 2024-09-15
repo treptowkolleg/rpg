@@ -3,11 +3,21 @@
 namespace Btinet\Rpg\TerminalMenu\View;
 
 use Btinet\Rpg\System\Out;
-use Btinet\Rpg\TerminalMenu\AbstractTerminalMenu;
 use Btinet\Rpg\TerminalMenu\TerminalMenuItem;
 
 class BattleMenuView extends AbstractMenuView
 {
+
+    public function configureDescription(): ?string
+    {
+        return
+            <<<TEXT
+            Dir stellt sich ein Gegner in den Weg!
+            Du solltest ihn besser bekämpfen. Viel Glück!
+            
+            
+            TEXT;
+    }
 
 
     public function setup(): void

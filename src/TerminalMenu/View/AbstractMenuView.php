@@ -17,6 +17,7 @@ abstract class AbstractMenuView implements MenuViewInterface
         $this->menu = new TerminalMenu($title,$key);
         $this->engine = $engine;
         $this->setup();
+        $this->menu->setDescription($this->configureDescription());
     }
 
     public function getMenu(): TerminalMenu
@@ -27,6 +28,11 @@ abstract class AbstractMenuView implements MenuViewInterface
     public function getEngine(): SimpleTerminalEngine
     {
         return $this->engine;
+    }
+
+    public function configureDescription(): ?string
+    {
+        return null;
     }
 
 }

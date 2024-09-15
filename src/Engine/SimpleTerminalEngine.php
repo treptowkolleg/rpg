@@ -8,9 +8,7 @@ use Btinet\Rpg\Character\Weapon\Weapon;
 use Btinet\Rpg\Config\ConfigInterface;
 use Btinet\Rpg\Monster\Monster;
 use Btinet\Rpg\System\Out;
-use Btinet\Rpg\System\TextColor;
 use Btinet\Rpg\TerminalMenu\TerminalMenu;
-use Btinet\Rpg\TerminalMenu\TerminalMenuItem;
 use Btinet\Rpg\TerminalMenu\TextBlock;
 use Error;
 use JetBrains\PhpStorm\NoReturn;
@@ -65,6 +63,11 @@ class SimpleTerminalEngine
 
         $this->mainMenu = new TerminalMenu($title, $key);
 
+        // Standard-Entitäten setzen
+        $this->setCurrentCharacter(0);
+        $this->setCurrentMonster(0);
+
+        // Menüs anlegen
         foreach ($config::menuViewLibrary() as $menuSet)
         {
             if(class_exists($class = $menuSet[0])) {
@@ -73,6 +76,7 @@ class SimpleTerminalEngine
                 $this->mainMenu->addChildren($subMenu->getMenu());
             }
         }
+
     }
 
     /**
