@@ -72,7 +72,7 @@ class TerminalMenu extends AbstractTerminalMenu
     {
         if ($clearBefore) self::clearView();
         if($this->intro && $text = $this->description) {
-            Out::print($text);
+            Out::print($text, TextColor::green);
             $this->intro = false;
         }
 
